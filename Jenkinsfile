@@ -37,7 +37,7 @@ pipeline {
             branch 'master'
           }
           steps {
-            withAWS(region:'eu-west-1',credentials:'  f5813e85-c93f-4e2c-aaf6-77894102eff4') {
+            withAWS(region:'eu-central-1',credentials:'  f5813e85-c93f-4e2c-aaf6-77894102eff4') {
               s3Delete(bucket: 'smarthome-react', path:'**/*')
               s3Upload(bucket: 'smarthome-react', workingDir:'build', includePathPattern:'**/*');
             }
