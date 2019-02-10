@@ -41,7 +41,6 @@ pipeline {
               s3Delete(bucket: 'smarthome-react', path:'**/*')
               s3Upload(bucket: 'smarthome-react', workingDir:'build', includePathPattern:'**/*');
             }
-            mail(subject: 'Production Build', body: 'New Deployment to Production', to: 'vyboyshchik@gmail.com')
           }
         }
       }
