@@ -5,16 +5,14 @@ const input = ({
   field,
   form: { touched, errors },
   ...props
-}) => (
-
-  <TextField
+}) => {
+  const error = Boolean(errors[field.name] && touched[field.name])
+  return <TextField
     {...field}
     {...props}
-    error={
-      Boolean(errors[field.name] && touched[field.name])
-    }
-    helperText={Boolean(errors[field.name] && touched[field.name]) ? errors[field.name] : ''}
+    error={error}
+    helperText={error ? errors[field.name] : ''}
   />
-);
+}
 
 export default input;

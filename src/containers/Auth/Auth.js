@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Formik, Field } from 'formik';
 import Button from "@material-ui/core/Button";
-import Input from '../../components/UI/Input/Input'
+import Input from '../../components/UI/Input/Input';
 import * as Yup from 'yup';
+import * as actions from '../../store/actions';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email('email is invalid'),
-  password: Yup.string().required().min(8, 'password must be at least 8 characters')
+  password: Yup.string().required()
 });
 
 class Auth extends Component {
-
-  onSubmit(model) {
-    console.log(model)
+  componentDidUpdate() {
+    const { error } = this.props;
+    if (error) {
+      this.form.setErrors({email: error});
+      this.form.setSubmitting(false)      
+    }
   }
 
   render() {
     return (
       <Formik
+        ref={el => (this.form = el)}
         initialValues={{ email: '', password: '' }}
-        onSubmit={this.onSubmit}
+        onSubmit={ (model) => this.props.onAuth(model.email, model.password) }
         validationSchema={validationSchema}
       >
         {({
@@ -66,4 +72,16 @@ class Auth extends Component {
   }
 }
 
-export default Auth
+const mapStateToProps = state => {
+  return {
+    error: state.auth.error,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password) => dispatch(actions.auth(email, password)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
