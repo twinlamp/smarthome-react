@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field } from 'formik';
 import Button from "@material-ui/core/Button";
+import Link from '@material-ui/core/Link';
 import Input from '../../components/UI/Input/Input';
 import * as Yup from 'yup';
 import * as actions from '../../store/actions';
+import classes from './Auth.module.css'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email('email is invalid'),
@@ -38,7 +40,7 @@ class Auth extends Component {
           isSubmitting,
           isValid
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className={classes.Auth}>
             <Field
               name="email"
               type="text"
@@ -55,16 +57,19 @@ class Auth extends Component {
               margin="normal"
               variant="outlined"
             />
-            <div>
-             <Button
-               type="submit"
-               variant="contained"
-               color="primary"
-               disabled={isSubmitting || !isValid}
-             >
-               Sign In
-             </Button>
-            </div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              disabled={isSubmitting || !isValid}
+              classes={{
+                disabled: classes.DisabledButton
+              }}
+            >
+              Sign In
+            </Button>
+            <Link className={classes.Link}>Don't have an account? Please sign up.</Link>
           </form>
         )}
       </Formik>

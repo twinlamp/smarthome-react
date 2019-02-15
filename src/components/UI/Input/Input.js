@@ -11,7 +11,7 @@ const input = ({
     {...field}
     {...props}
     error={error}
-    helperText={error ? errors[field.name] : ''}
+    helperText={error ? errors[field.name] : ' '}
   />
 }
 

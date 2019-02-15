@@ -1,0 +1,21 @@
+.Auth {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.DisabledButton {
+  cursor: not-allowed!important;
+  pointer-events: auto!important;
+}
+
+.Link {
+  font-size: 0.75em;
+  text-align: center;
+  margin-top: 10px;
+}
