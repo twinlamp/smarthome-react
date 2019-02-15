@@ -9,6 +9,12 @@ export const auth = (email, password, isSignup) => {
   }
 }
 
+export const logout = () => {
+  return {
+    type: actionTypes.AUTH_INITIATE_LOGOUT,
+  }
+}
+
 export const authStart = () => {
   return {
     type: actionTypes.AUTH_START

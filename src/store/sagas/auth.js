@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects'
 import * as actions from '../actions'
+import * as actionTypes from '../actions/actionTypes'
 
 export function* authSaga(action) {
   yield put(actions.authStart())
@@ -13,13 +14,20 @@ export function* authSaga(action) {
   const jsonResponse = yield response.json()
   console.log(jsonResponse)
   if (jsonResponse.status === 'success') {
-    localStorage.setItem('token', jsonResponse.data.token);
+    yield localStorage.setItem('token', jsonResponse.data.token);
     // localStorage.setItem('expirationDate', response.data.data.expire);
-    localStorage.setItem('email', action.email);
+    yield localStorage.setItem('email', action.email);
     yield put(actions.authSuccess(jsonResponse.data.token, action.email))
     // yield put(actions.checkAuthTimeout(response.data.expiresIn))
   } else {
     const errorMsg = action.isSignup ? 'Email is taken' : 'Wrong email or password'
     yield put(actions.authFail(errorMsg))
   }
+}
+
+export function* logoutSaga(action) {
+  yield localStorage.removeItem('token');
+  // yield localStorage.removeItem('expirationDate');
+  yield localStorage.removeItem('email');
+  yield put({type: actionTypes.AUTH_LOGOUT});
 }
