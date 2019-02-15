@@ -14,6 +14,10 @@ const validationSchema = Yup.object().shape({
 });
 
 class Auth extends Component {
+  state = {
+    isSignUp: false
+  }
+
   componentDidUpdate() {
     const { error } = this.props;
     if (error) {
@@ -22,12 +26,22 @@ class Auth extends Component {
     }
   }
 
+  toggleSignUp = () => {
+    this.setState(prevState => {
+        return { isSignup: !prevState.isSignup };
+    });
+  }
+
+  onAuth = (model) => {
+    this.props.onAuth(model.email, model.password, this.state.isSignup)
+  }
+
   render() {
     return (
       <Formik
         ref={el => (this.form = el)}
         initialValues={{ email: '', password: '' }}
-        onSubmit={ (model) => this.props.onAuth(model.email, model.password) }
+        onSubmit={this.onAuth}
         validationSchema={validationSchema}
       >
         {({
@@ -67,9 +81,14 @@ class Auth extends Component {
                 disabled: classes.DisabledButton
               }}
             >
-              Sign In
+              {this.state.isSignup ? 'Sign Up' : 'Sign In'}
             </Button>
-            <Link className={classes.Link}>Don't have an account? Please sign up.</Link>
+            <Link
+              className={classes.Link}
+              onClick={this.toggleSignUp}
+            >
+              {this.state.isSignup ? 'Already have an account? Please sign in.' : "Don't have an account? Please sign up."}
+            </Link>
           </form>
         )}
       </Formik>
@@ -85,7 +104,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password) => dispatch(actions.auth(email, password)),
+    onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
   };
 };
 
