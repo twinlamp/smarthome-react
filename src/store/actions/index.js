@@ -3,5 +3,8 @@ export {
   authSuccess,
   authFail,
   auth,
-  logout
+  logout,
+  logoutSucceed,
+  checkAuthTimeout,
+  authCheckState
 } from './auth'

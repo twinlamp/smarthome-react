@@ -35,3 +35,22 @@ export const authFail = (error) => {
     error: error
   };
 };
+
+export const logoutSucceed = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT
+  }
+}
+
+export const checkAuthTimeout = (expirationDate) => {
+  return {
+    type: actionTypes.AUTH_CHECK_TIMEOUT,
+    expirationDate: expirationDate
+  }
+}
+
+export const authCheckState = () => {
+  return {
+    type: actionTypes.AUTH_CHECK_STATE
+  }
+}
