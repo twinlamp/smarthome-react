@@ -1,17 +1,17 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    token: null,
-    email: null,
-    error: null,
-    loading: false,
+  token: null,
+  email: null,
+  error: null,
+  loading: false,
 };
 
 const authStart = (state, action) => {
-    return {...state, ...{
-      error: null,
-      loading: true
-    }};
+  return {...state, ...{
+    error: null,
+    loading: true
+  }};
 };
 
 const authSuccess = (state, action) => {

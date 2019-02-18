@@ -1,32 +1,19 @@
-import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import classes from './Navbar.module.css'
+import NavActions from './NavActions/NavActions'
 
-class Navbar extends Component {
+const navbar = (props) => (
+  <AppBar position="static">
+    <Toolbar>
+      <Typography variant="h6" color="inherit" className={classes.NavLinks}>
+        Kak-tam-dom
+      </Typography>
+      <NavActions list={props.navActions}/>
+    </Toolbar>
+  </AppBar>
+);
 
-  render() {
-    return <AppBar position="static">
-      <Toolbar>
-        <IconButton color="inherit" aria-label="Menu">
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" color="inherit" className={classes.NavLinks}>
-          News
-        </Typography>
-        <Button
-          color="inherit"
-          component={NavLink}
-          to="/logout"
-        >Logout</Button>
-      </Toolbar>
-    </AppBar>
-  }
-}
-
-export default Navbar;
+export default navbar;

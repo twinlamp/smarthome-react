@@ -9,11 +9,15 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga'
 import { watchAuth } from './store/sagas'
 import authReducer from './store/reducers/auth';
+import navReducer from './store/reducers/nav';
+import devicesReducer from './store/reducers/devices'
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducers = combineReducers( {
-  auth: authReducer
+  auth: authReducer,
+  nav: navReducer,
+  devices: devicesReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
