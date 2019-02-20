@@ -4,9 +4,9 @@ import * as actions from '../actions'
 export function* authSaga(action) {
   yield put(actions.authStart())
   const authData = {
-      email: action.email,
-      password: action.password,
-      passConfirm: action.password
+    email: action.email,
+    password: action.password,
+    passConfirm: action.password
   };
   const url = action.isSignup ? '/api/user/add' : '/api/session/create'
   const response = yield fetch(url, { method: 'POST', body: JSON.stringify(authData) })
@@ -25,13 +25,13 @@ export function* authSaga(action) {
 
 export function* logoutSaga(action) {
   yield localStorage.removeItem('token');
-  // yield localStorage.removeItem('expirationDate');
+  yield localStorage.removeItem('expirationDate');
   yield localStorage.removeItem('email');
   yield put(actions.logoutSucceed());
 }
 
 export function* checkAuthTimeoutSaga(action) {
-  const diff = 0.8285045 * (new Date(action.expirationDate) - new Date())
+  const diff = new Date(action.expirationDate) - new Date()
   yield delay(Math.min(diff, 2147483647))
   yield put(actions.logout())
 }

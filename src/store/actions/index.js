@@ -16,5 +16,9 @@ export {
 export {
   getDevices,
   getDevicesStart,
-  getDevicesFinish
+  getDevicesFinish,
+  addDevice,
+  addDeviceStart,
+  addDeviceFinish,
+  addDeviceFail
 } from './devices'

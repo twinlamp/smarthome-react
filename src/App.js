@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Layout from './hoc/Layout/Layout';
 import Auth from './containers/Auth/Auth';
 import Devices from './containers/Devices/Devices';
+import NewDevice from './containers/NewDevice/NewDevice';
 import Logout from './containers/Auth/Logout/Logout';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -35,9 +36,10 @@ class App extends Component {
       routes = (
         <Layout>
           <Switch>
-            <Route path='/' exact component={Devices} />
+            <Route path='/devices/new' exact component={NewDevice} />
+            <Route path='/devices' exact component={Devices} />
             <Route path='/logout' component={Logout} />
-            <Redirect to='/' />
+            <Redirect to='/devices' />
           </Switch>
         </Layout>
       );

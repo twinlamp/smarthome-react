@@ -1,0 +1,11 @@
+.NewDevice {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: auto;
+}
+
+.DisabledButton {
+  cursor: not-allowed!important;
+  pointer-events: auto!important;
+}

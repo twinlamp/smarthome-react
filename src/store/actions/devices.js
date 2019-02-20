@@ -18,3 +18,31 @@ export const getDevicesFinish = () => {
     type: actionTypes.GET_DEVICES_FINISH
   }
 }
+
+export const addDevice = (name, timezone, token) => {
+  return {
+    type: actionTypes.ADD_DEVICE,
+    name: name,
+    timezone: timezone,
+    token: token
+  }
+}
+
+export const addDeviceStart = () => {
+  return {
+    type: actionTypes.ADD_DEVICE_START
+  }
+}
+
+export const addDeviceFinish = () => {
+  return {
+    type: actionTypes.ADD_DEVICE_FINISH
+  }
+}
+
+export const addDeviceFail = (error) => {
+  return {
+    type: actionTypes.ADD_DEVICE_FAIL,
+    error: error
+  }
+}

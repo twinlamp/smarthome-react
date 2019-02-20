@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga'
-import { watchAuth } from './store/sagas'
+import rootSaga from './store/sagas'
 import authReducer from './store/reducers/auth';
 import navReducer from './store/reducers/nav';
 import devicesReducer from './store/reducers/devices'
@@ -24,7 +24,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore( rootReducers, composeEnhancers( applyMiddleware( sagaMiddleware ) ) ); 
 
-sagaMiddleware.run(watchAuth)
+sagaMiddleware.run(rootSaga)
 
 const app = ( 
     <Provider store={ store }>
