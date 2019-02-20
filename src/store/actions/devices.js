@@ -13,9 +13,10 @@ export const getDevicesStart = () => {
   }
 }
 
-export const getDevicesFinish = () => {
+export const getDevicesFinish = (devices) => {
   return {
-    type: actionTypes.GET_DEVICES_FINISH
+    type: actionTypes.GET_DEVICES_FINISH,
+    devices: devices
   }
 }
 

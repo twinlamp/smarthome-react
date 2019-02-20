@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
+import DeviceList from '../../components/DeviceList/DeviceList'
+import Typography from '@material-ui/core/Typography';
 
 class Devices extends Component {
   componentWillMount() {
@@ -9,7 +11,10 @@ class Devices extends Component {
   }
 
   render() {
-    return null
+    return <React.Fragment>
+      <Typography variant="h4" gutterBottom={true}>Device List</Typography>
+      <DeviceList items={this.props.devices} />
+    </React.Fragment>
   }
 }
 
