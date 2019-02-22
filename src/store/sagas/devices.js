@@ -7,7 +7,8 @@ export function* getDevicesSaga(action) {
   headers.append('X-Session-Token', action.token)
   const response = yield fetch('/api/device/list', { method: 'POST', headers: headers })
   const jsonResponse = yield response.json()
-  yield put(actions.getDevicesFinish(jsonResponse.data))
+  let data = jsonResponse.status === 'success' ? jsonResponse.data : []
+  yield put(actions.getDevicesFinish(data))
 }
 
 export function* addDeviceSaga(action) {

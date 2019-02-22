@@ -1,25 +1,42 @@
 import { put, delay } from 'redux-saga/effects'
 import * as actions from '../actions'
 
-export function* authSaga(action) {
-  yield put(actions.authStart())
-  const authData = {
+export function* signInSaga(action) {
+  yield put(actions.signInStart())
+  const signInData = {
     email: action.email,
     password: action.password,
     passConfirm: action.password
   };
-  const url = action.isSignup ? '/api/user/add' : '/api/session/create'
-  const response = yield fetch(url, { method: 'POST', body: JSON.stringify(authData) })
+  const response = yield fetch('/api/session/create', { method: 'POST', body: JSON.stringify(signInData) })
   const jsonResponse = yield response.json()
   if (jsonResponse.status === 'success') {
     yield localStorage.setItem('token', jsonResponse.data.token);
     yield localStorage.setItem('expirationDate', jsonResponse.data.expire);
     yield localStorage.setItem('email', action.email);
-    yield put(actions.authSuccess(jsonResponse.data.token, action.email))
+    yield put(actions.signInSuccess(jsonResponse.data.token, action.email))
     yield put(actions.checkAuthTimeout(jsonResponse.data.expire))
   } else {
-    const errorMsg = action.isSignup ? 'Email is taken' : 'Wrong email or password'
-    yield put(actions.authFail(errorMsg))
+    yield put(actions.signInFail('Wrong email or password'))
+  }
+}
+
+export function* signUpSaga(action) {
+  yield put(actions.signUpStart())
+  const signUpData = {
+    email: action.email,
+    password: action.password,
+    passConfirm: action.password
+  };
+  const response = yield fetch('/api/user/add', { method: 'POST', body: JSON.stringify(signUpData) })
+  const jsonResponse = yield response.json()
+  if (jsonResponse.status === 'success') {
+    yield localStorage.setItem('token', jsonResponse.data.token);
+    yield localStorage.setItem('expirationDate', jsonResponse.data.expire);
+    yield localStorage.setItem('email', action.email);
+    yield put(actions.signUpSuccess())
+  } else {
+    yield put(actions.signUpFail('Email already taken'))
   }
 }
 
@@ -45,7 +62,7 @@ export function* authCheckStateSaga(action) {
       yield put(actions.logout());
     } else {
       const email = localStorage.getItem('email');
-      yield put(actions.authSuccess(token, email));
+      yield put(actions.signInSuccess(token, email));
       yield put(actions.checkAuthTimeout(localStorage.getItem('expirationDate')));
     }
   }

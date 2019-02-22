@@ -16,7 +16,9 @@ class Devices extends Component {
 
   render() {
     let body = <Typography variant="body1" gutterBottom={true}>Please add new device</Typography>
-    if (this.props.devices.length !== 0) { body = <DeviceList items={this.props.devices || []} />}
+    if (this.props.devices && this.props.devices.length !== 0) {
+      body = <DeviceList items={this.props.devices || []} />
+    }
 
     return <React.Fragment>
       <Typography variant="h4" gutterBottom={true}>Device List</Typography>

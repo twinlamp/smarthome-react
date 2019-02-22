@@ -4,6 +4,7 @@ import { Formik, Field } from 'formik';
 import Button from "@material-ui/core/Button";
 import Link from '@material-ui/core/Link';
 import Input from '../../components/UI/Input/Input';
+import Snackbar from '../../components/UI/Snackbar/Snackbar';
 import * as Yup from 'yup';
 import * as actions from '../../store/actions';
 import classes from './Auth.module.css'
@@ -16,84 +17,107 @@ const validationSchema = Yup.object().shape({
 
 class Auth extends Component {
   state = {
-    isSignUp: false
+    isSignUp: false,
+    showSnackbar: false
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error) {
       this.form.setErrors({email: error});
       this.form.setSubmitting(false)      
     }
+    if (!error && prevProps.loading && !this.props.loading && this.form.getFormikContext().isSubmitting) {
+      this.form.setSubmitting(false)
+      this.toggleSignUp()
+      this.toggleSnackbar()
+    }
   }
 
   toggleSignUp = () => {
     this.setState(prevState => {
-        return { isSignup: !prevState.isSignup };
+      return { isSignup: !prevState.isSignup };
     });
   }
 
+  toggleSnackbar = () => {
+    this.setState(prevState => {
+      return { showSnackbar: !prevState.showSnackbar };
+    })
+  }
+
   onAuth = (model) => {
-    this.props.onAuth(model.email, model.password, this.state.isSignup)
+    if (this.state.isSignup) {
+      this.props.onSignUp(model.email, model.password)
+    } else {
+      this.props.onSignIn(model.email, model.password)
+    }
   }
 
   render() {
     return (
-      <Formik
-        ref={el => (this.form = el)}
-        initialValues={{ email: '', password: '' }}
-        onSubmit={this.onAuth}
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          isValid
-        }) => (
-          <form onSubmit={handleSubmit} className={classes.Auth}>
-            <Field
-              name="email"
-              type="text"
-              component={Input}
-              label="Email"
-              margin="normal"
-              variant="outlined"
-            />
-            <Field
-              name="password"
-              type="password"
-              component={Input}
-              label="Password"
-              margin="normal"
-              variant="outlined"
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
-              disabled={isSubmitting || !isValid}
-              classes={{
-                disabled: classes.DisabledButton
-              }}
-            >
-              {this.state.isSignup ? 'Sign Up' : 'Sign In'}
-              {this.props.loading && <CircularProgress size={24} className={classes.ButtonProgress} />}
-            </Button>
-            <Link
-              className={classes.Link}
-              onClick={this.toggleSignUp}
-            >
-              {this.state.isSignup ? 'Already have an account? Please sign in.' : "Don't have an account? Please sign up."}
-            </Link>
-          </form>
-        )}
-      </Formik>
+      <React.Fragment>
+        <Formik
+          ref={el => (this.form = el)}
+          initialValues={{ email: '', password: '' }}
+          onSubmit={this.onAuth}
+          validationSchema={validationSchema}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            isValid
+          }) => (
+            <form onSubmit={handleSubmit} className={classes.Auth}>
+              <Field
+                name="email"
+                type="text"
+                component={Input}
+                label="Email"
+                margin="normal"
+                variant="outlined"
+              />
+              <Field
+                name="password"
+                type="password"
+                component={Input}
+                label="Password"
+                margin="normal"
+                variant="outlined"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                disabled={isSubmitting || !isValid}
+                classes={{
+                  disabled: classes.DisabledButton
+                }}
+              >
+                {this.state.isSignup ? 'Sign Up' : 'Sign In'}
+                {this.props.loading && <CircularProgress size={24} className={classes.ButtonProgress} />}
+              </Button>
+              <Link
+                className={classes.Link}
+                onClick={this.toggleSignUp}
+              >
+                {this.state.isSignup ? 'Already have an account? Please sign in.' : "Don't have an account? Please sign up."}
+              </Link>
+            </form>
+          )}
+        </Formik>
+        <Snackbar
+          open={this.state.showSnackbar}
+          message={<span>You've registered successfully. You can sign in now.</span>}
+          onClose={this.toggleSnackbar}
+        />
+      </React.Fragment>
     );
   }
 }
@@ -107,7 +131,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
+    onSignIn: (email, password) => dispatch(actions.signIn(email, password)),
+    onSignUp: (email, password) => dispatch(actions.signUp(email, password)),
   };
 };
 

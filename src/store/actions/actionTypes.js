@@ -1,7 +1,13 @@
-export const AUTH_START = 'AUTH_START';
-export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const AUTH_FAIL = 'AUTH_FAIL';
-export const AUTH_USER = 'AUTH_USER';
+export const SIGN_IN_START = 'SIGN_IN_START';
+export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
+export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
+export const SIGN_IN_USER = 'SIGN_IN_USER';
+
+export const SIGN_UP_START = 'SIGN_UP_START';
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
+export const SIGN_UP_FAIL = 'SIGN_UP_FAIL';
+export const SIGN_UP_USER = 'SIGN_UP_USER';
+
 export const AUTH_INITIATE_LOGOUT = 'AUTH_INITIATE_LOGOUT';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const AUTH_CHECK_TIMEOUT = 'AUTH_CHECK_TIMEOUT';

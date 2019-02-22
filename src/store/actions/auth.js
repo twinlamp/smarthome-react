@@ -1,11 +1,18 @@
 import * as actionTypes from './actionTypes';
 
-export const auth = (email, password, isSignup) => {
+export const signIn = (email, password) => {
   return {
-    type: actionTypes.AUTH_USER,
+    type: actionTypes.SIGN_IN_USER,
     email: email,
     password: password,
-    isSignup: isSignup
+  }
+}
+
+export const signUp = (email, password) => {
+  return {
+    type: actionTypes.SIGN_UP_USER,
+    email: email,
+    password: password,
   }
 }
 
@@ -15,23 +22,42 @@ export const logout = () => {
   }
 }
 
-export const authStart = () => {
+export const signInStart = () => {
   return {
-    type: actionTypes.AUTH_START
+    type: actionTypes.SIGN_IN_START
   };
 };
 
-export const authSuccess = (token, email) => {
+export const signInSuccess = (token, email) => {
   return {
-    type: actionTypes.AUTH_SUCCESS,
+    type: actionTypes.SIGN_IN_SUCCESS,
     token: token,
     email: email
   };
 };
 
-export const authFail = (error) => {
+export const signInFail = (error) => {
   return {
-    type: actionTypes.AUTH_FAIL,
+    type: actionTypes.SIGN_IN_FAIL,
+    error: error
+  };
+};
+
+export const signUpStart = () => {
+  return {
+    type: actionTypes.SIGN_UP_START
+  };
+};
+
+export const signUpSuccess = () => {
+  return {
+    type: actionTypes.SIGN_UP_SUCCESS
+  };
+};
+
+export const signUpFail = (error) => {
+  return {
+    type: actionTypes.SIGN_UP_FAIL,
     error: error
   };
 };
