@@ -1,11 +1,15 @@
-.NewDevice {
+.DeviceForm {
   display: flex;
   flex-direction: column;
   width: 300px;
-  margin: auto;
+  margin-right: auto;
 }
 
 .DisabledButton {
   cursor: not-allowed!important;
   pointer-events: auto!important;
+}
+
+.ButtonProgress {
+  position: absolute;
 }

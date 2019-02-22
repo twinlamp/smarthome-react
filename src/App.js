@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import Layout from './hoc/Layout/Layout';
 import Auth from './containers/Auth/Auth';
 import Devices from './containers/Devices/Devices';
+import Device from './containers/Device/Device';
 import NewDevice from './containers/NewDevice/NewDevice';
+import EditDevice from './containers/EditDevice/EditDevice';
 import Logout from './containers/Auth/Logout/Logout';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -21,16 +23,11 @@ const jss = create({
 
 class App extends Component {
   componentDidMount() {
-    this.props.onTryAutoSignup();
+    this.props.onTryAutoSignup(this.props.location.pathname);
   }
 
   render() {
-    let routes = (
-      <Switch>
-        <Route path='/auth' component={Auth} />
-        <Redirect to='/auth' />
-      </Switch>
-    );
+    let routes = null
 
     if (this.props.isAuthenticated) {
       routes = (
@@ -38,11 +35,20 @@ class App extends Component {
           <Switch>
             <Route path='/devices/new' exact component={NewDevice} />
             <Route path='/devices' exact component={Devices} />
-            <Route path='/logout' component={Logout} />
-            <Redirect to='/devices' />
+            <Route path='/devices/:id/edit' exact component={EditDevice} />
+            <Route path='/devices/:id' exact component={Device} />
+            <Route path='/logout' exact component={Logout} />
+            {this.props.location.state && this.props.location.state.from ? <Redirect from='/' to={this.props.location.state.from} /> : <Redirect from='/' to='/devices' /> }
           </Switch>
         </Layout>
       );
+    } else {
+      routes = (
+        <Switch>
+          <Route path='/auth' exact component={Auth} />
+          <Redirect from='/' to={{pathname: '/auth', state: {from: this.props.location}}} />
+        </Switch>
+      )
     }
 
     return (
@@ -64,7 +70,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(actions.authCheckState())
+    onTryAutoSignup: (url) => dispatch(actions.authCheckState(url))
   };
 };
 

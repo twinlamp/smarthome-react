@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-import DeviceList from '../../components/DeviceList/DeviceList'
+import DeviceList from '../../components/DeviceList/DeviceList';
 import Typography from '@material-ui/core/Typography';
+import * as navActions from '../../components/Navigation/Navbar/NavActions/navActionTypes';
 
 class Devices extends Component {
-  componentWillMount() {
-    this.props.onSetNavActions(['AddDevice', 'Logout'])
+  componentDidMount() {
+    let actions = {}
+    actions[navActions.ADD_DEVICE] = {}
+    actions[navActions.LOGOUT] = {}
+    this.props.onSetNavActions(actions)
     this.props.onGetDevices(this.props.token)
   }
 
   render() {
+    let body = <Typography variant="body1" gutterBottom={true}>Please add new device</Typography>
+    if (this.props.devices.length !== 0) { body = <DeviceList items={this.props.devices || []} />}
+
     return <React.Fragment>
       <Typography variant="h4" gutterBottom={true}>Device List</Typography>
-      <DeviceList items={this.props.devices} />
+      {body}      
     </React.Fragment>
   }
 }

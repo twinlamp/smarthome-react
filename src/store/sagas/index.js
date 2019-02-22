@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { takeEvery, fork, all } from 'redux-saga/effects';
 import { authSaga, logoutSaga, checkAuthTimeoutSaga, authCheckStateSaga } from './auth';
-import { getDevicesSaga, addDeviceSaga } from './devices';
+import { getDevicesSaga, addDeviceSaga, getCurrentDeviceSaga, editDeviceSaga } from './devices';
 
 function* watchAuth() {
   yield takeEvery(actionTypes.AUTH_USER, authSaga)
@@ -13,6 +13,8 @@ function* watchAuth() {
 function* watchDevices() {
   yield takeEvery(actionTypes.GET_DEVICES, getDevicesSaga)
   yield takeEvery(actionTypes.ADD_DEVICE, addDeviceSaga)
+  yield takeEvery(actionTypes.GET_CURRENT_DEVICE, getCurrentDeviceSaga)
+  yield takeEvery(actionTypes.EDIT_DEVICE, editDeviceSaga)
 }
 
 export default function* rootSaga () {

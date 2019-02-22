@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
+import DeviceForm from '../../components/DeviceForm/DeviceForm';
+import Typography from '@material-ui/core/Typography';
+import * as navActions from '../../components/Navigation/Navbar/NavActions/navActionTypes';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Formik, Field } from 'formik';
 import * as actions from '../../store/actions';
-import Input from '../../components/UI/Input/Input';
-import * as Yup from 'yup';
-import moment from 'moment';
-import momentTimezone from 'moment-timezone';
-import classes from './NewDevice.module.css'
-import Button from "@material-ui/core/Button";
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required(),
-  timezone: Yup.string().required()
-});
-
-const timezoneOptions = [<option value="" disabled key={0}></option>]
-timezoneOptions.push(moment.tz.names().map((name, index) => <option key={index+1} value={name}>{name}</option>))
 
 class NewDevice extends Component {
-  componentWillMount() {
-    this.props.onSetNavActions(['Logout'])
+  componentDidMount() {
+    let actions = {}
+    actions[navActions.BACK] = {url: '/devices'}
+    actions[navActions.LOGOUT] = {}
+    this.props.onSetNavActions(actions)
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { error } = this.props;
     if (error) {
       this.form.setErrors({name: error});
       this.form.setSubmitting(false)      
+    }
+    if (!error && prevProps.loading && !this.props.loading) {
+      this.props.history.push('/devices')
     }
   }
 
@@ -35,68 +30,23 @@ class NewDevice extends Component {
   }
 
   render() {
-    return (
-      <Formik
+    return <React.Fragment>
+      <Typography variant="h4" gutterBottom={true}>New Device</Typography>
+      <DeviceForm
+        onSave={this.onAddDevice}
+        buttonText="Add Device"
         ref={el => (this.form = el)}
         initialValues={{ name: '', deviceId: '', timezone: '' }}
-        onSubmit={this.onAddDevice}
-        validationSchema={validationSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          isValid
-        }) => (
-          <form onSubmit={handleSubmit} className={classes.NewDevice}>
-            <Field
-              name="name"
-              type="text"
-              component={Input}
-              label="Name"
-              margin="normal"
-              variant="outlined"
-            />
-            <Field
-              name="timezone"
-              type="text"
-              component={Input}
-              select
-              SelectProps={{
-                native: true
-              }}
-              children={timezoneOptions}
-              label="Timezone"
-              variant="outlined"
-              margin="normal"
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
-              disabled={isSubmitting || !isValid}
-              classes={{
-                disabled: classes.DisabledButton
-              }}
-            >
-              Add Device
-            </Button>
-          </form>
-        )}
-      </Formik>
-    )
+      />
+    </React.Fragment>
   }
 }
 
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    error: state.devices.error
+    error: state.devices.error,
+    loading: state.devices.loading
   };
 };
 
@@ -107,4 +57,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewDevice);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewDevice));

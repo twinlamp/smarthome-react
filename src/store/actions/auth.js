@@ -49,8 +49,9 @@ export const checkAuthTimeout = (expirationDate) => {
   }
 }
 
-export const authCheckState = () => {
+export const authCheckState = (url) => {
   return {
-    type: actionTypes.AUTH_CHECK_STATE
+    type: actionTypes.AUTH_CHECK_STATE,
+    url: url
   }
 }

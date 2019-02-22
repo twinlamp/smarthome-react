@@ -7,6 +7,7 @@ import Input from '../../components/UI/Input/Input';
 import * as Yup from 'yup';
 import * as actions from '../../store/actions';
 import classes from './Auth.module.css'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email('email is invalid'),
@@ -82,6 +83,7 @@ class Auth extends Component {
               }}
             >
               {this.state.isSignup ? 'Sign Up' : 'Sign In'}
+              {this.props.loading && <CircularProgress size={24} className={classes.ButtonProgress} />}
             </Button>
             <Link
               className={classes.Link}
@@ -99,6 +101,7 @@ class Auth extends Component {
 const mapStateToProps = state => {
   return {
     error: state.auth.error,
+    loading: state.auth.loading
   };
 };
 

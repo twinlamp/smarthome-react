@@ -20,5 +20,12 @@ export {
   addDevice,
   addDeviceStart,
   addDeviceFinish,
-  addDeviceFail
+  addDeviceFail,
+  getCurrentDevice,
+  getCurrentDeviceStart,
+  getCurrentDeviceFinish,
+  editDevice,
+  editDeviceStart,
+  editDeviceFinish,
+  editDeviceFail,
 } from './devices'

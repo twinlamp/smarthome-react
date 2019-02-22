@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   devices: [],
   loading: false,
+  currentDevice: {}
 };
 
 const getDevicesStart = (state, action) => {
@@ -40,6 +41,42 @@ const addDeviceFail = (state, action) => {
   }};
 }
 
+const getCurrentDeviceStart = (state, action) => {
+  return {...state, ...{
+    device: {},
+    loading: true
+  }};
+};
+
+const getCurrentDeviceFinish = (state, action) => {
+  return {...state, ...{
+    currentDevice: action.device,
+    loading: false
+  }};
+}
+
+const editDeviceStart = (state, action) => {
+  return {...state, ...{
+    error: null,
+    loading: true
+  }};
+};
+
+const editDeviceFinish = (state, action) => {
+  return {...state, ...{
+    error: null,
+    loading: false
+  }};
+}
+
+const editDeviceFail = (state, action) => {
+  return {...state, ...{
+    error: action.error,
+    loading: false
+  }};
+}
+
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_DEVICES_START:
@@ -52,6 +89,16 @@ const reducer = (state = initialState, action) => {
       return addDeviceFinish(state, action);
     case actionTypes.ADD_DEVICE_FAIL:
       return addDeviceFail(state, action);
+    case actionTypes.GET_CURRENT_DEVICE_START:
+      return getCurrentDeviceStart(state, action);
+    case actionTypes.GET_CURRENT_DEVICE_FINISH:
+      return getCurrentDeviceFinish(state, action);
+    case actionTypes.EDIT_DEVICE_START:
+      return editDeviceStart(state, action);
+    case actionTypes.EDIT_DEVICE_FINISH:
+      return editDeviceFinish(state, action);
+    case actionTypes.EDIT_DEVICE_FAIL:
+      return editDeviceFail(state, action);
     default:
       return state;
   }
