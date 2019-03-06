@@ -15,12 +15,12 @@ class NewDevice extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error) {
-      this.form.setErrors({name: error});
+    const { errors } = this.props;
+    if (errors) {
+      this.form.setErrors(errors);
       this.form.setSubmitting(false)      
     }
-    if (!error && prevProps.loading && !this.props.loading) {
+    if (!errors && prevProps.loading && !this.props.loading) {
       this.props.history.push('/devices')
     }
   }
@@ -45,7 +45,7 @@ class NewDevice extends Component {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    error: state.devices.error,
+    errors: state.devices.errors,
     loading: state.devices.loading
   };
 };

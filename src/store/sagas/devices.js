@@ -1,53 +1,48 @@
 import { put } from 'redux-saga/effects'
 import * as actions from '../actions'
 
+let headers = token => {
+  const headers = new Headers()
+  headers.append('Authorization', `Bearer ${token}`)
+  headers.append('Content-Type', 'application/json')
+  return headers  
+}
+
 export function* getDevicesSaga(action) {
   yield put(actions.getDevicesStart())
-  const headers = new Headers()
-  headers.append('X-Session-Token', action.token)
-  const response = yield fetch('/api/device/list', { method: 'POST', headers: headers })
+  const response = yield fetch('/api/v1/devices', { method: 'GET', headers: headers(action.token) })
   const jsonResponse = yield response.json()
-  let data = jsonResponse.status === 'success' ? jsonResponse.data : []
+  let data = response.ok ? jsonResponse : []
   yield put(actions.getDevicesFinish(data))
 }
 
 export function* addDeviceSaga(action) {
   yield put(actions.addDeviceStart())
-  const headers = new Headers()
-  headers.append('X-Session-Token', action.token)
-  const initResponse = yield fetch('/api/device/add', { method: 'POST', headers: headers, body: JSON.stringify({ version: 1 }) })
-  const jsonInitResponse = yield initResponse.json()
-  if (jsonInitResponse.status === 'success') {
-    const id = jsonInitResponse.data.Token
-    yield put(actions.editDevice(parseInt(id), action.name, action.timezone, action.token))
+  const requestBody = { device: { name: action.name, timezone: action.timezone } }
+  const response = yield fetch('/api/v1/devices', { method: 'POST', headers: headers(action.token), body: JSON.stringify(requestBody) })
+  const jsonResponse = yield response.json()
+  if (jsonResponse.ok) {
     yield put(actions.addDeviceFinish())
   } else {
-    const errorMsg = 'Something went wrong'
-    yield put(actions.addDeviceFail(errorMsg))
+    yield put(actions.addDeviceFail(jsonResponse.errors))
   }
 }
 
 export function* getCurrentDeviceSaga(action) {
   yield put(actions.getCurrentDeviceStart())
-  const headers = new Headers()
-  headers.append('X-Session-Token', action.token)
-  const requestBody = { deviceId: parseInt(action.id) }
-  const response = yield fetch('/api/device', { method: 'POST', headers: headers, body: JSON.stringify(requestBody) })
+  const response = yield fetch(`/api/v1/devices/${action.id}`, { method: 'POST', headers: headers(action.token) })
   const jsonResponse = yield response.json()
-  yield put(actions.getCurrentDeviceFinish(jsonResponse.data))  
+  yield put(actions.getCurrentDeviceFinish(jsonResponse.device))
 }
 
 export function* editDeviceSaga(action) {
   yield put(actions.editDeviceStart())
-  const headers = new Headers()
-  headers.append('X-Session-Token', action.token)
-  const requestBody = { deviceId: parseInt(action.id), name: action.name, timezone: action.timezone }
-  const initResponse = yield fetch('/api/device/set', { method: 'POST', headers: headers, body: JSON.stringify(requestBody) })
-  const jsonInitResponse = yield initResponse.json()
-  if (jsonInitResponse.status === 'success') {
+  const requestBody = { device: { name: action.name, timezone: action.timezone } }
+  const response = yield fetch(`/api/v1/devices/${action.id}`, { method: 'PUT', headers: headers(action.token), body: JSON.stringify(requestBody) })
+  const jsonResponse = yield response.json()
+  if (jsonResponse.ok) {
     yield put(actions.editDeviceFinish())
   } else {
-    const errorMsg = 'Name already taken'
-    yield put(actions.editDeviceFail(errorMsg))
+    yield put(actions.editDeviceFail(jsonResponse.errors))
   }
 }

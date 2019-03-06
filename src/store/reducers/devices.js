@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   devices: [],
   loading: false,
+  errors: null,
   currentDevice: {}
 };
 
@@ -22,21 +23,21 @@ const getDevicesFinish = (state, action) => {
 
 const addDeviceStart = (state, action) => {
   return {...state, ...{
-    error: null,
+    errors: null,
     loading: true
   }};
 };
 
 const addDeviceFinish = (state, action) => {
   return {...state, ...{
-    error: null,
+    errors: null,
     loading: false
   }};
 }
 
 const addDeviceFail = (state, action) => {
   return {...state, ...{
-    error: action.error,
+    errors: action.errors,
     loading: false
   }};
 }
@@ -57,21 +58,21 @@ const getCurrentDeviceFinish = (state, action) => {
 
 const editDeviceStart = (state, action) => {
   return {...state, ...{
-    error: null,
+    errors: null,
     loading: true
   }};
 };
 
 const editDeviceFinish = (state, action) => {
   return {...state, ...{
-    error: null,
+    errors: null,
     loading: false
   }};
 }
 
 const editDeviceFail = (state, action) => {
   return {...state, ...{
-    error: action.error,
+    errors: action.errors,
     loading: false
   }};
 }

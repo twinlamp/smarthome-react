@@ -41,10 +41,10 @@ export const addDeviceFinish = () => {
   }
 }
 
-export const addDeviceFail = (error) => {
+export const addDeviceFail = (errors) => {
   return {
     type: actionTypes.ADD_DEVICE_FAIL,
-    error: error
+    errors: errors
   }
 }
 
@@ -91,9 +91,9 @@ export const editDeviceFinish = () => {
   }
 }
 
-export const editDeviceFail = (error) => {
+export const editDeviceFail = (errors) => {
   return {
     type: actionTypes.EDIT_DEVICE_FAIL,
-    error: error
+    errors: errors
   }
 }
