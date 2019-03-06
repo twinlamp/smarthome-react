@@ -22,12 +22,12 @@ class Auth extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { error } = this.props;
-    if (error) {
-      this.form.setErrors({email: error});
+    const { errors } = this.props;
+    if (errors) {
+      this.form.setErrors(errors);
       this.form.setSubmitting(false)      
     }
-    if (!error && prevProps.loading && !this.props.loading && this.form.getFormikContext().isSubmitting) {
+    if (!errors && prevProps.loading && !this.props.loading && this.form.getFormikContext().isSubmitting) {
       this.form.setSubmitting(false)
       this.toggleSignUp()
       this.toggleSnackbar()
@@ -124,7 +124,7 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
   return {
-    error: state.auth.error,
+    errors: state.auth.errors,
     loading: state.auth.loading
   };
 };

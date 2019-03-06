@@ -6,18 +6,21 @@ export function* signInSaga(action) {
   const signInData = {
     email: action.email,
     password: action.password,
-    passConfirm: action.password
   };
-  const response = yield fetch('/api/session/create', { method: 'POST', body: JSON.stringify(signInData) })
+  const response = yield fetch('/api/v1/auth/sign_in', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(signInData)
+  })
   const jsonResponse = yield response.json()
-  if (jsonResponse.status === 'success') {
-    yield localStorage.setItem('token', jsonResponse.data.token);
-    yield localStorage.setItem('expirationDate', jsonResponse.data.expire);
+  if (response.ok) {
+    yield localStorage.setItem('token', jsonResponse.token);
+    yield localStorage.setItem('expirationDate', jsonResponse.expire);
     yield localStorage.setItem('email', action.email);
-    yield put(actions.signInSuccess(jsonResponse.data.token, action.email))
-    yield put(actions.checkAuthTimeout(jsonResponse.data.expire))
+    yield put(actions.signInSuccess(jsonResponse.token, action.email))
+    yield put(actions.checkAuthTimeout(jsonResponse.expire))
   } else {
-    yield put(actions.signInFail('Wrong email or password'))
+    yield put(actions.signInFail(jsonResponse.errors))
   }
 }
 
@@ -26,17 +29,17 @@ export function* signUpSaga(action) {
   const signUpData = {
     email: action.email,
     password: action.password,
-    passConfirm: action.password
   };
-  const response = yield fetch('/api/user/add', { method: 'POST', body: JSON.stringify(signUpData) })
+  const response = yield fetch('/api/v1/auth/sign_up', {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(signUpData)
+  })
   const jsonResponse = yield response.json()
-  if (jsonResponse.status === 'success') {
-    yield localStorage.setItem('token', jsonResponse.data.token);
-    yield localStorage.setItem('expirationDate', jsonResponse.data.expire);
-    yield localStorage.setItem('email', action.email);
+  if (response.ok) {
     yield put(actions.signUpSuccess())
   } else {
-    yield put(actions.signUpFail('Email already taken'))
+    yield put(actions.signUpFail(jsonResponse.errors))
   }
 }
 

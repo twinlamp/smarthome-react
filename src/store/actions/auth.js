@@ -36,10 +36,10 @@ export const signInSuccess = (token, email) => {
   };
 };
 
-export const signInFail = (error) => {
+export const signInFail = (errors) => {
   return {
     type: actionTypes.SIGN_IN_FAIL,
-    error: error
+    errors: errors
   };
 };
 
@@ -55,10 +55,10 @@ export const signUpSuccess = () => {
   };
 };
 
-export const signUpFail = (error) => {
+export const signUpFail = (errors) => {
   return {
     type: actionTypes.SIGN_UP_FAIL,
-    error: error
+    errors: errors
   };
 };
 

@@ -3,13 +3,13 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   token: null,
   email: null,
-  error: null,
+  errors: null,
   loading: false,
 };
 
 const signInStart = (state, action) => {
   return {...state, ...{
-    error: null,
+    errors: null,
     loading: true
   }};
 };
@@ -18,35 +18,35 @@ const signInSuccess = (state, action) => {
   return {...state, ...{
     token: action.token,
     email: action.email,
-    error: null,
+    errors: null,
     loading: false
   }};
 };
 
 const signInFail = (state, action) => {
   return {...state, ...{
-    error: action.error,
+    errors: action.errors,
     loading: false
   }};
 };
 
 const signUpStart = (state, action) => {
   return {...state, ...{
-    error: null,
+    errors: null,
     loading: true
   }};
 };
 
 const signUpSuccess = (state, action) => {
   return {...state, ...{
-    error: null,
+    errors: null,
     loading: false
   }};
 };
 
 const signUpFail = (state, action) => {
   return {...state, ...{
-    error: action.error,
+    errors: action.errors,
     loading: false
   }};
 };
