@@ -30,7 +30,7 @@ export function* addDeviceSaga(action) {
 
 export function* getCurrentDeviceSaga(action) {
   yield put(actions.getCurrentDeviceStart())
-  const response = yield fetch(`/api/v1/devices/${action.id}`, { method: 'POST', headers: headers(action.token) })
+  const response = yield fetch(`/api/v1/devices/${action.id}`, { method: 'GET', headers: headers(action.token) })
   const jsonResponse = yield response.json()
   yield put(actions.getCurrentDeviceFinish(jsonResponse.device))
 }

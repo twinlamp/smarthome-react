@@ -4,7 +4,7 @@ const initialState = {
   devices: [],
   loading: false,
   errors: null,
-  currentDevice: {}
+  currentDevice: null
 };
 
 const getDevicesStart = (state, action) => {

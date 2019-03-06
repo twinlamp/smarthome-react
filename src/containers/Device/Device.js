@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import Typography from '@material-ui/core/Typography';
 import * as navActions from '../../components/Navigation/Navbar/NavActions/navActionTypes'
+import SensorList from '../../components/SensorList/SensorList';
 
 class Device extends Component {
   componentDidMount() {
@@ -16,9 +17,16 @@ class Device extends Component {
   }
 
   render() {
+    let sensors = null
+
+    if (this.props.currentDevice && this.props.currentDevice.sensors.length !== 0) {
+      sensors = <SensorList items={this.props.currentDevice.sensors || []} />
+    }
+
     return <React.Fragment>
       <Typography variant="h4" gutterBottom={true}>Device</Typography>
       <Typography variant="body1" gutterBottom={true}>{JSON.stringify(this.props.currentDevice)}</Typography>
+      { sensors }
     </React.Fragment>
   }
 }
