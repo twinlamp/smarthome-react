@@ -19,8 +19,10 @@ class Device extends Component {
   render() {
     let endpoints = []
     if (this.props.currentDevice) {
-      endpoints.push(this.props.currentDevice.sensors.map((s) => { return { ...s, type: 'sensor' } } ))
-      endpoints.push(this.props.currentDevice.relays.map((r) => { return { ...r, type: 'relay' } } ))
+      endpoints = [
+        ...this.props.currentDevice.free_sensors.map((s) => { return { ...s, type: 'sensor' } }),
+        ...this.props.currentDevice.relays.map((r) => { return { ...r, type: 'relay' } })
+      ]
     }
 
     return <React.Fragment>

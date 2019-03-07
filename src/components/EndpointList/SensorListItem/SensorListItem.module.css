@@ -1,3 +1,7 @@
 .action {
   margin-top: 0px;
 }
+
+.title {
+  text-transform: capitalize;
+}

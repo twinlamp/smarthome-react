@@ -14,15 +14,15 @@ import { Link } from 'react-router-dom';
 let iconItem = (icon, value) => {
   switch(icon) {
   case 'temperature':
-    return <Typography variant="h6"><i className='wi wi-thermometer'></i>{` ${value} ℃`}</Typography>;
+    return <Typography variant="h6" color='textPrimary'><i className='wi wi-thermometer'></i>{` ${value} ℃`}</Typography>;
   case 'humidity':
-    return <Typography variant="h6"><i className='wi wi-humidity'></i>{` ${value} %`}</Typography>;
+    return <Typography variant="h6" color='textPrimary'><i className='wi wi-humidity'></i>{` ${value} %`}</Typography>;
   case 'pressure':
-    return <Typography variant="h6"><i className='wi wi-barometer'></i>{` ${value} mmHg`}</Typography>;
+    return <Typography variant="h6" color='textPrimary'><i className='wi wi-barometer'></i>{` ${value} mmHg`}</Typography>;
   case 'light':
-    return <Typography variant="h6"><i className='wi wi-day-sunny'></i>{` ${value} lm`}</Typography>;
+    return <Typography variant="h6" color='textPrimary'><i className='wi wi-day-sunny'></i>{` ${value} lm`}</Typography>;
   default:
-    return <Typography variant="h6"><i className='wi wi-thermometer'></i>{` ${value} &#8451`}</Typography>;
+    return <Typography variant="h6" color='textPrimary'>{`${value} ???`}</Typography>;
   }
 }
 
@@ -48,15 +48,16 @@ class sensorListItem extends Component {
         <CardHeader
           avatar={iconItem(icon, value)}
           title={title}
-          titleTypographyProps={{variant: 'h6'}}
+          titleTypographyProps={{variant: 'h5', color: 'secondary'}}
           action={
-            <IconButton onClick={(e) => this.handleClick(e)}>
+            <IconButton onClick={(e) => this.handleClick(e)} color='primary'>
               <MoreVertIcon />
             </IconButton>
           }
           classes={
             {
-              action: classes.action
+              action: classes.action,
+              title: classes.title
             }
           }
         />

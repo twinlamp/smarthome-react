@@ -1,3 +1,23 @@
-.action {
-  margin-top: 0px;
+.content {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+.icon {
+  align-self: center;
+}
+
+.value {
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+}
+
+.actions {
+  justify-content: space-between;
+}
+
+.title {
+  text-transform: capitalize;
 }

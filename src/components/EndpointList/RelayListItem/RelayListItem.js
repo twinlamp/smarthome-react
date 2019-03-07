@@ -1,84 +1,98 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import IconButton from '@material-ui/core/IconButton';
-import 'weathericons/css/weather-icons.min.css';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
-import classes from './RelayListItem.module.css';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 import { Link } from 'react-router-dom';
-
+import classes from './RelayListItem.module.css';
+import Button from '@material-ui/core/Button';
+import Icon from '@mdi/react';
+import { mdiRadiator, mdiRadiatorOff, mdiFan, mdiFanOff,
+  mdiEngine, mdiEngineOff, mdiWater, mdiWaterOff, mdiPower,
+  mdiPowerOff, mdiLightbulbOn, mdiLightbulb } from '@mdi/js';
+import { withTheme } from '@material-ui/core/styles';
 
 let iconItem = (icon, value) => {
   switch(icon) {
-  case 'temperature':
-    return <Typography variant="h6"><i className='wi wi-thermometer'></i>{` ${value} ℃`}</Typography>;
-  case 'humidity':
-    return <Typography variant="h6"><i className='wi wi-humidity'></i>{` ${value} %`}</Typography>;
-  case 'pressure':
-    return <Typography variant="h6"><i className='wi wi-barometer'></i>{` ${value} mmHg`}</Typography>;
+  case 'radiator':
+    return value ? mdiRadiator : mdiRadiatorOff;
   case 'light':
-    return <Typography variant="h6"><i className='wi wi-day-sunny'></i>{` ${value} lm`}</Typography>;
+    return value ? mdiLightbulbOn : mdiLightbulb;
+  case 'fan':
+    return value ? mdiFan : mdiFanOff;
+  case 'engine':
+    return value ? mdiEngine : mdiEngineOff;
+  case 'water':
+    return value ? mdiWater : mdiWaterOff;
   default:
-    return <Typography variant="h6"><i className='wi wi-thermometer'></i>{` ${value} &#8451`}</Typography>;
+    return value ? mdiPower : mdiPowerOff;
+  }
+}
+
+let sensorValue = (icon, value) => {
+  switch(icon) {
+  case 'temperature':
+    return `${value} ℃`;
+  case 'humidity':
+    return `${value} %`;
+  case 'pressure':
+    return `${value} mmHg`;
+  case 'light':
+    return `${value} lm`;
+  default:
+    return `${value} ???`;
   }
 }
 
 class relayListItem extends Component {
-  state = {
-    anchorEl: null
-  }
-
-  handleClick(e) {
-    this.setState({ anchorEl: e.currentTarget })
-  }
-
-  handleClose() {
-    this.setState({ anchorEl: null })
-  }
-
   render() {
-    const { icon, value, title, id } = this.props;
-    const { anchorEl } = this.state;
-
+    const { icon, value, title, id, sensor, theme } = this.props;
+    console.log(theme)
     return (
       <Card raised={true}>
         <CardHeader
-          avatar={iconItem(icon, value)}
           title={title}
-          titleTypographyProps={{variant: 'h6'}}
-          action={
-            <IconButton onClick={(e) => this.handleClick(e)}>
-              <MoreVertIcon />
-            </IconButton>
-          }
-          classes={
-            {
-              action: classes.action
-            }
-          }
+          titleTypographyProps={{variant: 'h5', align: 'center', color: 'secondary'}}
+          classes={{title: classes.title}}
         />
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={() => this.handleClose()}
-        >
-          <MenuItem
+        <Divider variant="middle" />
+        <CardContent className={classes.content}>
+          <Icon path={iconItem(icon, value)}
+            size={6}
+            className={classes.icon}
+            color={value ? theme.palette.primary.main : theme.palette.grey[500] }/>
+          { sensor &&
+            <Typography variant="h6" className={classes.value} color='textPrimary'>
+              { sensorValue(sensor.icon, sensor.value) }
+            </Typography>
+          }
+        </CardContent>
+        <Divider variant="middle" />
+        <CardActions className={classes.actions}>
+          <Button
+            color="primary"
             component={Link}
-            to={`/sensor/${id}/edit`}
-          >Edit</MenuItem>
-          <MenuItem
-            component={Link}
-            to={`/sensor/${id}`}
-          >Graph</MenuItem>
-        </Menu>
+            to={`/relays/${id}/edit`}
+          >
+            Edit
+          </Button>
+          {sensor &&
+            <Button
+              color="primary"
+              component={Link}
+              to={`/sensors/${id}`}
+            >
+              Graph
+            </Button>
+          }
+        </CardActions>
       </Card>
     )
   }
 }
 
-export default relayListItem;
+export default withTheme()(relayListItem);
 
 
