@@ -36,7 +36,7 @@ class NewDevice extends Component {
         onSave={this.onAddDevice}
         buttonText="Add Device"
         ref={el => (this.form = el)}
-        initialValues={{ name: '', deviceId: '', timezone: '' }}
+        initialValues={{ name: '', timezone: '' }}
       />
     </React.Fragment>
   }

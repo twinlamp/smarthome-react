@@ -49,7 +49,7 @@ let sensorValue = (icon, value) => {
 class relayListItem extends Component {
   render() {
     const { icon, value, title, id, sensor, theme } = this.props;
-    console.log(theme)
+
     return (
       <Card raised={true}>
         <CardHeader

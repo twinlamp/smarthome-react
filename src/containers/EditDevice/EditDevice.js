@@ -35,11 +35,10 @@ class EditDevice extends Component {
   }
 
   initialValues = () => {
-    let device = this.props.currentDevice.device
-    if (device) {
-      return {deviceId: device.id, name: device.name, timezone: device.timezone}
+    if (this.props.currentDevice) {
+      return {name: this.props.currentDevice.name, timezone: this.props.currentDevice.timezone}
     } else {
-      return { name: '', deviceId: '', timezone: '' }
+      return { name: '', timezone: '' }
     }
   }
 
