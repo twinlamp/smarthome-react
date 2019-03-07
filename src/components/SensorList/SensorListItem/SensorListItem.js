@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -6,6 +6,10 @@ import IconButton from '@material-ui/core/IconButton';
 import 'weathericons/css/weather-icons.min.css';
 import Typography from '@material-ui/core/Typography';
 import classes from './SensorListItem.module.css';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { Link } from 'react-router-dom';
+
 
 let iconItem = (icon, value) => {
   switch(icon) {
@@ -27,25 +31,59 @@ let iconItem = (icon, value) => {
   }
 }
 
+class sensorListItem extends Component {
+  state = {
+    anchorEl: null
+  }
 
-const sensorListItem = (props) => (
-  <Card raised={true}>
-    <CardHeader
-      avatar={iconItem(props.icon, props.value)}
-      title={props.title}
-      titleTypographyProps={{variant: 'h6'}}
-      action={
-        <IconButton to={`/sensor/${props.id}/edit`}>
-          <MoreVertIcon />
-        </IconButton>
-      }
-      classes={
-        {
-          action: classes.action
-        }
-      }
-    />
-  </Card>
-);
+  handleClick(e) {
+    this.setState({ anchorEl: e.currentTarget })
+  }
+
+  handleClose() {
+    this.setState({ anchorEl: null })
+  }
+
+  render() {
+    const { icon, value, title, id } = this.props;
+    const { anchorEl } = this.state;
+
+    return (
+      <Card raised={true}>
+        <CardHeader
+          avatar={iconItem(icon, value)}
+          title={title}
+          titleTypographyProps={{variant: 'h6'}}
+          action={
+            <IconButton onClick={(e) => this.handleClick(e)}>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          classes={
+            {
+              action: classes.action
+            }
+          }
+        />
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => this.handleClose()}
+        >
+          <MenuItem
+            component={Link}
+            to={`/sensor/${id}/edit`}
+          >Edit</MenuItem>
+          <MenuItem
+            component={Link}
+            to={`/sensor/${id}`}
+          >Graph</MenuItem>
+        </Menu>
+      </Card>
+    )
+  }
+}
 
 export default sensorListItem;
+
+
