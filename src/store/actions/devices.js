@@ -69,6 +69,12 @@ export const getCurrentDeviceFinish = (device) => {
   }
 }
 
+export const dropCurrentDevice = () => {
+  return {
+    type: actionTypes.DROP_CURRENT_DEVICE
+  }
+}
+
 export const editDevice = (id, name, timezone, token) => {
   return {
     type: actionTypes.EDIT_DEVICE,

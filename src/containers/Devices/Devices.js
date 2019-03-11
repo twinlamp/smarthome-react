@@ -7,10 +7,12 @@ import * as navActions from '../../components/Navigation/Navbar/NavActions/navAc
 
 class Devices extends Component {
   componentDidMount() {
+    this.props.onDropCurrentDevice()
     let actions = {}
     actions[navActions.ADD_DEVICE] = {}
     actions[navActions.LOGOUT] = {}
     this.props.onSetNavActions(actions)
+    this.props.onSetCurrentAction('Device List')
     this.props.onGetDevices(this.props.token)
   }
 
@@ -21,7 +23,6 @@ class Devices extends Component {
     }
 
     return <React.Fragment>
-      <Typography variant="h4" gutterBottom={true}>Device List</Typography>
       {body}      
     </React.Fragment>
   }
@@ -37,7 +38,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
-    onGetDevices: (token) => dispatch(actions.getDevices(token))
+    onGetDevices: (token) => dispatch(actions.getDevices(token)),
+    onDropCurrentDevice: () => dispatch(actions.dropCurrentDevice()),
+    onSetCurrentAction: (currentAction) => dispatch(actions.setCurrentAction(currentAction))
   };
 };
 

@@ -44,7 +44,7 @@ const addDeviceFail = (state, action) => {
 
 const getCurrentDeviceStart = (state, action) => {
   return {...state, ...{
-    device: {},
+    currentDevice: null,
     loading: true
   }};
 };
@@ -55,6 +55,12 @@ const getCurrentDeviceFinish = (state, action) => {
     loading: false
   }};
 }
+
+const dropCurrentDevice = (state, action) => {
+  return {...state, ...{
+    currentDevice: null
+  }};
+};
 
 const editDeviceStart = (state, action) => {
   return {...state, ...{
@@ -94,6 +100,8 @@ const reducer = (state = initialState, action) => {
       return getCurrentDeviceStart(state, action);
     case actionTypes.GET_CURRENT_DEVICE_FINISH:
       return getCurrentDeviceFinish(state, action);
+    case actionTypes.DROP_CURRENT_DEVICE:
+      return dropCurrentDevice();
     case actionTypes.EDIT_DEVICE_START:
       return editDeviceStart(state, action);
     case actionTypes.EDIT_DEVICE_FINISH:

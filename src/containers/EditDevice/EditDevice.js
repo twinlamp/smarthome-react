@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import DeviceForm from '../../components/DeviceForm/DeviceForm';
-import Typography from '@material-ui/core/Typography';
 import * as navActions from '../../components/Navigation/Navbar/NavActions/navActionTypes';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,10 +11,12 @@ class EditDevice extends Component {
   }
 
   componentDidMount() {
+    this.props.onDropCurrentDevice()
     let actions = {}
     actions[navActions.BACK] = {url: `/devices/${this.state.id}`}
     actions[navActions.LOGOUT] = {}
     this.props.onSetNavActions(actions)
+    this.props.onSetCurrentAction('Edit Device: ')
     this.props.onGetCurrentDevice(this.props.token, this.state.id)
   }
 
@@ -44,7 +45,6 @@ class EditDevice extends Component {
 
   render() {
     return <React.Fragment>
-      <Typography variant="h4" gutterBottom={true}>Edit Device</Typography>
       <DeviceForm onSave={this.onEditDevice} buttonText="Save" ref={el => (this.form = el)} initialValues={this.initialValues()} />
     </React.Fragment>
   }
@@ -63,7 +63,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
     onEditDevice: (id, name, timezone, token) => dispatch(actions.editDevice(id, name, timezone, token)),
-    onGetCurrentDevice: (token, id) => dispatch(actions.getCurrentDevice(token, id))
+    onGetCurrentDevice: (token, id) => dispatch(actions.getCurrentDevice(token, id)),
+    onDropCurrentDevice: () => dispatch(actions.dropCurrentDevice()),
+    onSetCurrentAction: (currentAction) => dispatch(actions.setCurrentAction(currentAction))
   };
 };
 

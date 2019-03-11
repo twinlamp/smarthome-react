@@ -7,7 +7,11 @@ class Layout extends Component {
 
   render() {
     return <React.Fragment>
-      <Navbar navActions={this.props.navActions}/>
+      <Navbar
+        navActions={this.props.navActions}
+        currentItem={this.props.currentItem}
+        currentAction={this.props.currentAction}
+      />
       <main className={classes.Main}>
         {this.props.children}
       </main>
@@ -18,6 +22,8 @@ class Layout extends Component {
 const mapStateToProps = state => {
   return {
     navActions: state.nav.navActions,
+    currentItem: state.devices.currentDevice,
+    currentAction: state.nav.currentAction,
     loading: state.auth.loading || state.devices.loading
   };
 };

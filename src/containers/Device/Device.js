@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-import Typography from '@material-ui/core/Typography';
 import * as navActions from '../../components/Navigation/Navbar/NavActions/navActionTypes'
 import EndpointList from '../../components/EndpointList/EndpointList';
 
 class Device extends Component {
   componentDidMount() {
+    this.props.onDropCurrentDevice()
     const { id } = this.props.match.params
     let actions = {}
     actions[navActions.BACK] = {url: '/devices'}
     actions[navActions.EDIT_DEVICE] = {id: id}
     actions[navActions.LOGOUT] = {}
     this.props.onSetNavActions(actions)
+    this.props.onSetCurrentAction('Device: ')
     this.props.onGetCurrentDevice(this.props.token, id)
   }
 
@@ -25,11 +26,7 @@ class Device extends Component {
       ]
     }
 
-    return <React.Fragment>
-      <Typography variant="h4" gutterBottom={true}>Device</Typography>
-      <Typography variant="body1" gutterBottom={true}>{JSON.stringify(this.props.currentDevice)}</Typography>
-      <EndpointList items={endpoints} />
-    </React.Fragment>
+    return <EndpointList items={endpoints} />
   }
 }
 
@@ -43,7 +40,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
-    onGetCurrentDevice: (token, id) => dispatch(actions.getCurrentDevice(token, id))
+    onGetCurrentDevice: (token, id) => dispatch(actions.getCurrentDevice(token, id)),
+    onDropCurrentDevice: () => dispatch(actions.dropCurrentDevice()),
+    onSetCurrentAction: (currentAction) => dispatch(actions.setCurrentAction(currentAction))
   };
 };
 

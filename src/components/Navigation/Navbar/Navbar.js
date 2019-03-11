@@ -11,7 +11,7 @@ const navbar = (props) => (
     <Toolbar>
       {props.navActions.Back ? <Back url={props.navActions.Back.url} /> : null}
       <Typography variant="h6" color="inherit" className={classes.NavLinks}>
-        Kak-tam-dom
+        {`${(props.currentAction || '')} ${(props.currentItem ? props.currentItem.title : '')}`}
       </Typography>
       <NavActions list={props.navActions}/>
     </Toolbar>

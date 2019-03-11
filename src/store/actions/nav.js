@@ -6,3 +6,10 @@ export const setNavActions = (navActions) => {
     navActions: navActions
   };
 };
+
+export const setCurrentAction = currentAction => {
+  return {
+    type: actionTypes.SET_CURRENT_ACTION,
+    currentAction: currentAction
+  };
+};

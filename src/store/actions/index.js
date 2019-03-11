@@ -14,7 +14,8 @@ export {
 } from './auth'
 
 export {
-  setNavActions
+  setNavActions,
+  setCurrentAction
 } from './nav'
 
 export {
@@ -28,6 +29,7 @@ export {
   getCurrentDevice,
   getCurrentDeviceStart,
   getCurrentDeviceFinish,
+  dropCurrentDevice,
   editDevice,
   editDeviceStart,
   editDeviceFinish,
