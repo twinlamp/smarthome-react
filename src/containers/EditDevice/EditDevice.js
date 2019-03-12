@@ -4,6 +4,7 @@ import * as navActions from '../../components/Navigation/Navbar/NavActions/navAc
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
+import { getLoadingStatus, makeGetErrorMessages } from '../../store/selectors';
 
 class EditDevice extends Component {
   state = {
@@ -11,12 +12,11 @@ class EditDevice extends Component {
   }
 
   componentDidMount() {
-    this.props.onDropCurrentDevice()
     let actions = {}
     actions[navActions.BACK] = {url: `/devices/${this.state.id}`}
     actions[navActions.LOGOUT] = {}
     this.props.onSetNavActions(actions)
-    this.props.onSetCurrentAction('Edit Device: ')
+    this.props.onSetNavTitle('Edit Device: ', true)
     this.props.onGetCurrentDevice(this.props.token, this.state.id)
   }
 
@@ -50,23 +50,26 @@ class EditDevice extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    token: state.auth.token,
-    errors: state.devices.errors,
-    loading: state.devices.loading,
-    currentDevice: state.devices.currentDevice
+const makeMapStateToProps = () => {
+  const getErrorMessages = makeGetErrorMessages(['EDIT_DEVICE'])
+  const mapStateToProps = state => {
+    return {
+      token: state.auth.token,
+      errors: getErrorMessages(state),
+      loading: getLoadingStatus(state),
+      currentDevice: state.devices.currentDevice
+    };
   };
-};
+  return mapStateToProps
+}
 
 const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
     onEditDevice: (id, name, timezone, token) => dispatch(actions.editDevice(id, name, timezone, token)),
     onGetCurrentDevice: (token, id) => dispatch(actions.getCurrentDevice(token, id)),
-    onDropCurrentDevice: () => dispatch(actions.dropCurrentDevice()),
-    onSetCurrentAction: (currentAction) => dispatch(actions.setCurrentAction(currentAction))
+    onSetNavTitle: (currentAction, showCurrentItem) => dispatch(actions.setNavTitle(currentAction, showCurrentItem))
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditDevice));
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(EditDevice));

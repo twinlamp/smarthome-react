@@ -7,12 +7,11 @@ import * as navActions from '../../components/Navigation/Navbar/NavActions/navAc
 
 class Devices extends Component {
   componentDidMount() {
-    this.props.onDropCurrentDevice()
     let actions = {}
     actions[navActions.ADD_DEVICE] = {}
     actions[navActions.LOGOUT] = {}
     this.props.onSetNavActions(actions)
-    this.props.onSetCurrentAction('Device List')
+    this.props.onSetNavTitle('Device List', false)
     this.props.onGetDevices(this.props.token)
   }
 
@@ -39,8 +38,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
     onGetDevices: (token) => dispatch(actions.getDevices(token)),
-    onDropCurrentDevice: () => dispatch(actions.dropCurrentDevice()),
-    onSetCurrentAction: (currentAction) => dispatch(actions.setCurrentAction(currentAction))
+    onSetNavTitle: (currentAction, showCurrentItem) => dispatch(actions.setNavTitle(currentAction, showCurrentItem))
   };
 };
 

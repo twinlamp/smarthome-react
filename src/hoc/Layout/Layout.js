@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Navbar from '../../components/Navigation/Navbar/Navbar';
 import { connect } from 'react-redux';
 import classes from './Layout.module.css';
+import { getLoadingStatus } from '../../store/selectors';
 
 class Layout extends Component {
 
@@ -22,9 +23,9 @@ class Layout extends Component {
 const mapStateToProps = state => {
   return {
     navActions: state.nav.navActions,
-    currentItem: state.devices.currentDevice,
+    currentItem: state.nav.showCurrentItem ? state.nav.currentItem : null,
     currentAction: state.nav.currentAction,
-    loading: state.auth.loading || state.devices.loading
+    loading: getLoadingStatus(state)
   };
 };
 

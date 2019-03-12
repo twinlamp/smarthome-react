@@ -4,14 +4,14 @@ import * as navActions from '../../components/Navigation/Navbar/NavActions/navAc
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
+import { getLoadingStatus, makeGetErrorMessages } from '../../store/selectors';
 
 class NewDevice extends Component {
   componentDidMount() {
-    this.props.onDropCurrentDevice()
     let actions = {}
     actions[navActions.BACK] = {url: '/devices'}
     actions[navActions.LOGOUT] = {}
-    this.props.onSetCurrentAction('New Device')
+    this.props.onSetNavTitle('New Device', false)
     this.props.onSetNavActions(actions)
   }
 
@@ -42,21 +42,26 @@ class NewDevice extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    token: state.auth.token,
-    errors: state.devices.errors,
-    loading: state.devices.loading
+
+
+const makeMapStateToProps = () => {
+  const getErrorMessages = makeGetErrorMessages(['ADD_DEVICE'])
+  const mapStateToProps = state => {
+    return {
+      token: state.auth.token,
+      errors: getErrorMessages(state),
+      loading: getLoadingStatus(state)
+    };
   };
-};
+  return mapStateToProps
+}
 
 const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
     onAddDevice: (name, timezone, token) => dispatch(actions.addDevice(name, timezone, token)),
-    onDropCurrentDevice: () => dispatch(actions.dropCurrentDevice()),
-    onSetCurrentAction: (currentAction) => dispatch(actions.setCurrentAction(currentAction))
+    onSetNavTitle: (currentAction, showCurrentItem) => dispatch(actions.setNavTitle(currentAction, showCurrentItem))
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewDevice));
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(NewDevice));

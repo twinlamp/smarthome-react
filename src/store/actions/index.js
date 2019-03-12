@@ -1,10 +1,10 @@
 export {
   signInStart,
-  signInSuccess,
+  signInFinish,
   signInFail,
   signIn,
   signUpStart,
-  signUpSuccess,
+  signUpFinish,
   signUpFail,
   signUp,
   logout,
@@ -15,7 +15,7 @@ export {
 
 export {
   setNavActions,
-  setCurrentAction
+  setNavTitle
 } from './nav'
 
 export {
@@ -29,7 +29,6 @@ export {
   getCurrentDevice,
   getCurrentDeviceStart,
   getCurrentDeviceFinish,
-  dropCurrentDevice,
   editDevice,
   editDeviceStart,
   editDeviceFinish,

@@ -6,14 +6,13 @@ import EndpointList from '../../components/EndpointList/EndpointList';
 
 class Device extends Component {
   componentDidMount() {
-    this.props.onDropCurrentDevice()
     const { id } = this.props.match.params
     let actions = {}
     actions[navActions.BACK] = {url: '/devices'}
     actions[navActions.EDIT_DEVICE] = {id: id}
     actions[navActions.LOGOUT] = {}
     this.props.onSetNavActions(actions)
-    this.props.onSetCurrentAction('Device: ')
+    this.props.onSetNavTitle('Device: ', true)
     this.props.onGetCurrentDevice(this.props.token, id)
   }
 
@@ -41,8 +40,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
     onGetCurrentDevice: (token, id) => dispatch(actions.getCurrentDevice(token, id)),
-    onDropCurrentDevice: () => dispatch(actions.dropCurrentDevice()),
-    onSetCurrentAction: (currentAction) => dispatch(actions.setCurrentAction(currentAction))
+    onSetNavTitle: (currentAction, showCurrentItem) => dispatch(actions.setNavTitle(currentAction, showCurrentItem))
   };
 };
 

@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import * as actions from '../../store/actions';
 import classes from './Auth.module.css'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { getLoadingStatus, makeGetErrorMessages } from '../../store/selectors';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email('email is invalid'),
@@ -29,8 +30,9 @@ class Auth extends Component {
     }
     if (!errors && prevProps.loading && !this.props.loading && this.form.getFormikContext().isSubmitting) {
       this.form.setSubmitting(false)
-      this.toggleSignUp()
-      this.toggleSnackbar()
+      if (this.props.isSignup) {
+        this.toggleSnackbar() && this.toggleSignUp()
+      }
     }
   }
 
@@ -122,12 +124,16 @@ class Auth extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    errors: state.auth.errors,
-    loading: state.auth.loading
+const makeMapStateToProps = () => {
+  const getErrorMessages = makeGetErrorMessages(['SIGN_IN', 'SIGN_UP'])
+  const mapStateToProps = state => {
+    return {
+      errors: getErrorMessages(state),
+      loading: getLoadingStatus(state)
+    };
   };
-};
+  return mapStateToProps
+}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -136,4 +142,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(makeMapStateToProps, mapDispatchToProps)(Auth);

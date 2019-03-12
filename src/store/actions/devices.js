@@ -65,13 +65,7 @@ export const getCurrentDeviceStart = () => {
 export const getCurrentDeviceFinish = (device) => {
   return {
     type: actionTypes.GET_CURRENT_DEVICE_FINISH,
-    device: device
-  }
-}
-
-export const dropCurrentDevice = () => {
-  return {
-    type: actionTypes.DROP_CURRENT_DEVICE
+    item: device
   }
 }
 

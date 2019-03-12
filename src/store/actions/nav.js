@@ -7,9 +7,10 @@ export const setNavActions = (navActions) => {
   };
 };
 
-export const setCurrentAction = currentAction => {
+export const setNavTitle = (currentAction, showCurrentItem) => {
   return {
-    type: actionTypes.SET_CURRENT_ACTION,
-    currentAction: currentAction
+    type: actionTypes.SET_NAV_TITLE,
+    currentAction: currentAction,
+    showCurrentItem: showCurrentItem
   };
 };

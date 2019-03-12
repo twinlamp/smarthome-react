@@ -28,9 +28,9 @@ export const signInStart = () => {
   };
 };
 
-export const signInSuccess = (token, email) => {
+export const signInFinish = (token, email) => {
   return {
-    type: actionTypes.SIGN_IN_SUCCESS,
+    type: actionTypes.SIGN_IN_FINISH,
     token: token,
     email: email
   };
@@ -49,9 +49,9 @@ export const signUpStart = () => {
   };
 };
 
-export const signUpSuccess = () => {
+export const signUpFinish = () => {
   return {
-    type: actionTypes.SIGN_UP_SUCCESS
+    type: actionTypes.SIGN_UP_FINISH
   };
 };
 

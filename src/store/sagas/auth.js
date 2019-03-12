@@ -17,7 +17,7 @@ export function* signInSaga(action) {
     yield localStorage.setItem('token', jsonResponse.token);
     yield localStorage.setItem('expirationDate', jsonResponse.expire);
     yield localStorage.setItem('email', action.email);
-    yield put(actions.signInSuccess(jsonResponse.token, action.email))
+    yield put(actions.signInFinish(jsonResponse.token, action.email))
     yield put(actions.checkAuthTimeout(jsonResponse.expire))
   } else {
     yield put(actions.signInFail(jsonResponse.errors))
@@ -37,7 +37,7 @@ export function* signUpSaga(action) {
   })
   const jsonResponse = yield response.json()
   if (response.ok) {
-    yield put(actions.signUpSuccess())
+    yield put(actions.signUpFinish())
   } else {
     yield put(actions.signUpFail(jsonResponse.errors))
   }
@@ -65,7 +65,7 @@ export function* authCheckStateSaga(action) {
       yield put(actions.logout());
     } else {
       const email = localStorage.getItem('email');
-      yield put(actions.signInSuccess(token, email));
+      yield put(actions.signInFinish(token, email));
       yield put(actions.checkAuthTimeout(localStorage.getItem('expirationDate')));
     }
   }
