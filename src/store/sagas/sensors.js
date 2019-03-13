@@ -12,6 +12,8 @@ export function* getCurrentSensorSaga(action) {
   yield put(actions.getCurrentSensorStart())
   const response = yield fetch(`/api/v1/sensors/${action.id}`, { method: 'GET', headers: headers(action.token) })
   const jsonResponse = yield response.json()
+  jsonResponse.sensor.min = parseInt(jsonResponse.sensor.min)
+  jsonResponse.sensor.max = parseInt(jsonResponse.sensor.max)
   yield put(actions.getCurrentSensorFinish(jsonResponse.sensor))
 }
 
