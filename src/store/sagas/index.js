@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { takeEvery, fork, all } from 'redux-saga/effects';
 import { signInSaga, signUpSaga, logoutSaga, checkAuthTimeoutSaga, authCheckStateSaga } from './auth';
 import { getDevicesSaga, addDeviceSaga, getCurrentDeviceSaga, editDeviceSaga } from './devices';
+import { getCurrentSensorSaga, editSensorSaga } from './sensors';
 
 function* watchAuth() {
   yield takeEvery(actionTypes.SIGN_IN_USER, signInSaga)
@@ -18,9 +19,15 @@ function* watchDevices() {
   yield takeEvery(actionTypes.EDIT_DEVICE, editDeviceSaga)
 }
 
+function* watchSensors() {
+  yield takeEvery(actionTypes.GET_CURRENT_SENSOR, getCurrentSensorSaga)
+  yield takeEvery(actionTypes.EDIT_SENSOR, editSensorSaga)
+}
+
 export default function* rootSaga () {
   yield all([
     fork(watchAuth),
     fork(watchDevices),
+    fork(watchSensors),
   ]);
 }

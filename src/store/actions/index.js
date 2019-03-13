@@ -34,3 +34,13 @@ export {
   editDeviceFinish,
   editDeviceFail,
 } from './devices'
+
+export {
+  getCurrentSensor,
+  getCurrentSensorStart,
+  getCurrentSensorFinish,
+  editSensor,
+  editSensorStart,
+  editSensorFinish,
+  editSensorFail,
+} from './sensors'

@@ -9,21 +9,14 @@ import classes from './SensorListItem.module.css';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
-
+import sensorTypes from '../../../shared/sensorTypes';
 
 let iconItem = (icon, value) => {
-  switch(icon) {
-  case 'temperature':
-    return <Typography variant="h6" color='textPrimary'><i className='wi wi-thermometer'></i>{` ${value} ℃`}</Typography>;
-  case 'humidity':
-    return <Typography variant="h6" color='textPrimary'><i className='wi wi-humidity'></i>{` ${value} %`}</Typography>;
-  case 'pressure':
-    return <Typography variant="h6" color='textPrimary'><i className='wi wi-barometer'></i>{` ${value} mmHg`}</Typography>;
-  case 'light':
-    return <Typography variant="h6" color='textPrimary'><i className='wi wi-day-sunny'></i>{` ${value} lm`}</Typography>;
-  default:
-    return <Typography variant="h6" color='textPrimary'>{`${value} ???`}</Typography>;
-  }
+  let data = sensorTypes.find(type => type.name === icon)
+  return <Typography variant="h6" color='textPrimary'>
+          {data && data.iconClass && <i className={data.iconClass}></i>}
+          {` ${value} ${data ? data.measurement : '???'}`}
+         </Typography>
 }
 
 class sensorListItem extends Component {
@@ -68,11 +61,11 @@ class sensorListItem extends Component {
         >
           <MenuItem
             component={Link}
-            to={`/sensor/${id}/edit`}
+            to={`/sensors/${id}/edit`}
           >Edit</MenuItem>
           <MenuItem
             component={Link}
-            to={`/sensor/${id}`}
+            to={`/sensors/${id}`}
           >Graph</MenuItem>
         </Menu>
       </Card>

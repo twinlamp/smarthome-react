@@ -37,16 +37,14 @@ class EditDevice extends Component {
 
   initialValues = () => {
     if (this.props.currentDevice) {
-      return {name: this.props.currentDevice.name, timezone: this.props.currentDevice.timezone}
+      return { name: this.props.currentDevice.name, timezone: this.props.currentDevice.timezone }
     } else {
       return { name: '', timezone: '' }
     }
   }
 
   render() {
-    return <React.Fragment>
-      <DeviceForm onSave={this.onEditDevice} buttonText="Save" ref={el => (this.form = el)} initialValues={this.initialValues()} />
-    </React.Fragment>
+    return <DeviceForm onSave={this.onEditDevice} buttonText="Save" ref={el => (this.form = el)} initialValues={this.initialValues()} />
   }
 }
 

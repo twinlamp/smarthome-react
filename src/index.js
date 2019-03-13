@@ -11,6 +11,7 @@ import rootSaga from './store/sagas'
 import authReducer from './store/reducers/auth';
 import navReducer from './store/reducers/nav';
 import devicesReducer from './store/reducers/devices'
+import sensorsReducer from './store/reducers/sensors'
 import loadingReducer from './store/reducers/loading'
 import errorsReducer from './store/reducers/errors'
 
@@ -20,6 +21,7 @@ const rootReducers = combineReducers( {
   auth: authReducer,
   nav: navReducer,
   devices: devicesReducer,
+  sensors: sensorsReducer,
   loading: loadingReducer,
   errors: errorsReducer
 });
