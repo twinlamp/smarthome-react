@@ -43,4 +43,7 @@ export {
   editSensorStart,
   editSensorFinish,
   editSensorFail,
+  getSensorData,
+  getSensorDataStart,
+  getSensorDataFinish,
 } from './sensors'

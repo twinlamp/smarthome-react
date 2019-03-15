@@ -51,3 +51,26 @@ export const editSensorFail = (errors) => {
     errors: errors
   }
 }
+
+export const getSensorData = (token, id, from, to) => {
+  return {
+    type: actionTypes.GET_SENSOR_DATA,
+    token: token,
+    id: id,
+    from: from,
+    to: to
+  }
+}
+
+export const getSensorDataStart = () => {
+  return {
+    type: actionTypes.GET_SENSOR_DATA_START
+  }
+}
+
+export const getSensorDataFinish = (data) => {
+  return {
+    type: actionTypes.GET_SENSOR_DATA_FINISH,
+    data: data
+  }
+}

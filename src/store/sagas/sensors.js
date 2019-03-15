@@ -28,3 +28,13 @@ export function* editSensorSaga(action) {
     yield put(actions.editSensorFail(jsonResponse.errors))
   }
 }
+
+export function* getSensorDataSaga(action) {
+  yield put(actions.getSensorDataStart())
+  let url = `/api/v1/sensor_values?sensor_id=${action.id}`
+  if (action.from) { url += `&from=${action.from}` }
+  if (action.to) { url += `&to=${action.to}`}
+  const response = yield fetch(url, { method: 'GET', headers: headers(action.token) })
+  const jsonResponse = yield response.json()
+  yield put(actions.getSensorDataFinish(jsonResponse))
+}
