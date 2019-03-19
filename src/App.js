@@ -9,6 +9,7 @@ import NewDevice from './containers/NewDevice/NewDevice';
 import EditDevice from './containers/EditDevice/EditDevice';
 import Sensor from './containers/Sensor/Sensor';
 import EditSensor from './containers/EditSensor/EditSensor';
+import EditRelay from './containers/EditRelay/EditRelay';
 import Logout from './containers/Auth/Logout/Logout';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -41,6 +42,7 @@ class App extends Component {
             <Route path='/devices/:id' exact component={Device} />
             <Route path='/sensors/:id/edit' exact component={EditSensor} />
             <Route path='/sensors/:id' exact component={Sensor} />
+            <Route path='/relays/:id/edit' exact component={EditRelay} />
             <Route path='/logout' exact component={Logout} />
             {this.props.location.state && this.props.location.state.from ? <Redirect from='/' to={this.props.location.state.from} /> : <Redirect from='/' to='/devices' /> }
           </Switch>

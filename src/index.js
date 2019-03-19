@@ -6,14 +6,15 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import createSagaMiddleware from 'redux-saga'
-import rootSaga from './store/sagas'
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './store/sagas';
 import authReducer from './store/reducers/auth';
 import navReducer from './store/reducers/nav';
-import devicesReducer from './store/reducers/devices'
-import sensorsReducer from './store/reducers/sensors'
-import loadingReducer from './store/reducers/loading'
-import errorsReducer from './store/reducers/errors'
+import devicesReducer from './store/reducers/devices';
+import sensorsReducer from './store/reducers/sensors';
+import relaysReducer from './store/reducers/relays';
+import loadingReducer from './store/reducers/loading';
+import errorsReducer from './store/reducers/errors';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
@@ -22,6 +23,7 @@ const rootReducers = combineReducers( {
   nav: navReducer,
   devices: devicesReducer,
   sensors: sensorsReducer,
+  relays: relaysReducer,
   loading: loadingReducer,
   errors: errorsReducer
 });

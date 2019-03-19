@@ -47,3 +47,16 @@ export {
   getSensorDataStart,
   getSensorDataFinish,
 } from './sensors'
+
+export {
+  getCurrentRelay,
+  getCurrentRelayStart,
+  getCurrentRelayFinish,
+  editRelay,
+  editRelayStart,
+  editRelayFinish,
+  editRelayFail,
+  getRelayData,
+  getRelayDataStart,
+  getRelayDataFinish,
+} from './relays'
