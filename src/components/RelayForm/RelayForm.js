@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Field } from 'formik';
 import Input from '../../components/UI/Input/Input';
+import TaskForm from '../TaskForm/TaskForm';
 import * as Yup from 'yup';
 import classes from './RelayForm.module.css';
 import Button from "@material-ui/core/Button";
@@ -10,6 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from '@mdi/react';
+import Typography from '@material-ui/core/Typography';
 
 const iconOptions = [<MenuItem value="" key={0}></MenuItem>]
 iconOptions.push(relayTypes.filter((rt) => rt.name).map((type, index) => {
@@ -54,7 +56,8 @@ const relayForm = React.forwardRef((props, ref) => {
       handleBlur,
       handleSubmit,
       isSubmitting,
-      isValid
+      isValid,
+      setFieldValue
     }) => (
       <form onSubmit={handleSubmit} className={classes.RelayForm}>
         <Field
@@ -80,19 +83,6 @@ const relayForm = React.forwardRef((props, ref) => {
           margin="normal"
         />
         <Field
-          name="state"
-          type="text"
-          component={Input}
-          select
-          SelectProps={{
-            native: true
-          }}
-          children={stateOptions}
-          label="State"
-          variant="outlined"
-          margin="normal"
-        />
-        <Field
           name="sensor_id"
           type="text"
           component={Input}
@@ -105,6 +95,27 @@ const relayForm = React.forwardRef((props, ref) => {
           variant="outlined"
           margin="normal"
         />
+        <Field
+          name="state"
+          type="text"
+          component={Input}
+          select
+          SelectProps={{
+            native: true
+          }}
+          children={stateOptions}
+          label="State"
+          variant="outlined"
+          margin="normal"
+        />
+        { values.state === 'task_mode' && <React.Fragment>
+            <Typography variant="h6">Task data</Typography>
+            <TaskForm
+              initialValues={values.task}
+              sensor={props.possibleSensors.find((s) => s.id === values.sensor_id)}
+            />
+          </React.Fragment>
+        }
         <Button
           type="submit"
           variant="contained"

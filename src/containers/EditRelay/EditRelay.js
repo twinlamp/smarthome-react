@@ -49,10 +49,12 @@ class EditRelay extends Component {
         name: this.props.currentRelay.name,
         icon: this.props.currentRelay.icon,
         state: this.props.currentRelay.state,
-        sensor_id: this.props.currentRelay.sensor.id
+        sensor_id: this.props.currentRelay.sensor.id,
+        values_range: false,
+        task: this.props.currentRelay.task
       }
     } else {
-      return { name: '', icon: '', state: '', sensor_id: '' }
+      return { name: '', icon: '', state: '', sensor_id: '', values_range: false, min: '', max: '' }
     }
   }
 
