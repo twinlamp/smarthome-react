@@ -40,7 +40,7 @@ class EditRelay extends Component {
   }
 
   onEditRelay = (model) => {
-    this.props.onEditRelay(this.state.id, model.name, model.icon, model.state, model.sensor_id, this.props.token)
+    this.props.onEditRelay(this.state.id, model.name, model.icon, model.state, model.sensor_id, model.task, this.props.token)
   }
 
   initialValues = () => {
@@ -49,12 +49,11 @@ class EditRelay extends Component {
         name: this.props.currentRelay.name,
         icon: this.props.currentRelay.icon,
         state: this.props.currentRelay.state,
-        sensor_id: this.props.currentRelay.sensor.id,
-        values_range: false,
+        sensor_id: this.props.currentRelay.sensor_id,
         task: this.props.currentRelay.task
       }
     } else {
-      return { name: '', icon: '', state: '', sensor_id: '', values_range: false, min: '', max: '' }
+      return { name: '', icon: '', state: '', sensor_id: '', task: {} }
     }
   }
 
@@ -85,7 +84,7 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = dispatch => {
   return {
     onSetNavActions: (navActions) => dispatch(actions.setNavActions(navActions)),
-    onEditRelay: (id, name, icon, state, sensor_id, token) => dispatch(actions.editRelay(id, name, icon, state, sensor_id, token)),
+    onEditRelay: (id, name, icon, state, sensor_id, task, token) => dispatch(actions.editRelay(id, name, icon, state, sensor_id, task, token)),
     onGetCurrentRelay: (token, id) => dispatch(actions.getCurrentRelay(token, id)),
     onSetNavTitle: (currentAction, showCurrentItem) => dispatch(actions.setNavTitle(currentAction, showCurrentItem))
   };

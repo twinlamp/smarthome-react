@@ -112,6 +112,9 @@ const relayForm = React.forwardRef((props, ref) => {
             <Typography variant="h6">Task data</Typography>
             <TaskForm
               initialValues={values.task}
+              onTaskChange={(val) => {
+                setFieldValue('task', val)
+              }}
               sensor={props.possibleSensors.find((s) => s.id === values.sensor_id)}
             />
           </React.Fragment>

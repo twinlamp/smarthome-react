@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import TaskFormComponent from './TaskFormComponent/TaskFormComponent'
+import TaskScheduleFormComponent from './TaskScheduleFormComponent/TaskScheduleFormComponent'
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required(),
+  start: Yup.date(),
+  end: Yup.date()
 });
 
-class TaskForm extends Component {
+class TaskScheduleForm extends Component {
 
   render() {
-    const { initialValues, sensor, onTaskChange } = this.props;
+    const { initialValues, onTaskScheduleChange } = this.props;
 
     return <Formik
       enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       render={formikProps => 
-        <TaskFormComponent
+        <TaskScheduleFormComponent
           initialValues={initialValues}
-          sensor={sensor}
-          onTaskChange={onTaskChange}
+          onTaskScheduleChange={onTaskScheduleChange}
           {...formikProps}
         /> 
-      } 
+      }
     />
   }
 }
 
-export default TaskForm;
+export default TaskScheduleForm;

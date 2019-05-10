@@ -21,7 +21,7 @@ export const getCurrentRelayFinish = (relay) => {
   }
 }
 
-export const editRelay = (id, name, icon, state, sensor_id, token) => {
+export const editRelay = (id, name, icon, state, sensor_id, task, token) => {
   return {
     type: actionTypes.EDIT_RELAY,
     id: id,
@@ -29,6 +29,7 @@ export const editRelay = (id, name, icon, state, sensor_id, token) => {
     icon: icon,
     state: state,
     sensor_id: sensor_id,
+    task: task,
     token: token
   }
 }

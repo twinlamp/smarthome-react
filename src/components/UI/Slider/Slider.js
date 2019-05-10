@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Rail, Handles, Tracks, Ticks } from 'react-compound-slider'
-import { withStyles, withTheme } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { CustomSlider, SliderRail, Handle, Track, Tick } from './SliderComponents/SliderComponents'
 
 const style = () => ({

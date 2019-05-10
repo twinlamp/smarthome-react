@@ -12,7 +12,7 @@ export function* getCurrentRelaySaga(action) {
   yield put(actions.getCurrentRelayStart())
   const response = yield fetch(`/api/v1/relays/${action.id}`, { method: 'GET', headers: headers(action.token) })
   const jsonResponse = yield response.json()
-  jsonResponse.relay.sensor_id = parseInt(jsonResponse.relay.sensor.id)
+  jsonResponse.relay.sensor_id = jsonResponse.relay.sensor ? parseInt(jsonResponse.relay.sensor.id) : ''
   jsonResponse.relay.possible_sensors.forEach((s) => {
     s.min = parseInt(s.min)
     s.max = parseInt(s.max)
@@ -22,7 +22,7 @@ export function* getCurrentRelaySaga(action) {
 
 export function* editRelaySaga(action) {
   yield put(actions.editRelayStart())
-  const requestBody = { relay: { name: action.name, min: action.min, max: action.max, icon: action.icon } }
+  const requestBody = { relay: { name: action.name, min: action.min, max: action.max, icon: action.icon, task: action.task } }
   const response = yield fetch(`/api/v1/relays/${action.id}`, { method: 'PUT', headers: headers(action.token), body: JSON.stringify(requestBody) })
   const jsonResponse = yield response.json()
   if (jsonResponse.ok) {
