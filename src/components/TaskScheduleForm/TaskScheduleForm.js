@@ -5,7 +5,7 @@ import TaskScheduleFormComponent from './TaskScheduleFormComponent/TaskScheduleF
 
 const validationSchema = Yup.object().shape({
   start: Yup.date(),
-  end: Yup.date()
+  stop: Yup.date()
 });
 
 class TaskScheduleForm extends Component {

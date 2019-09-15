@@ -4,6 +4,7 @@ import Input from '../../../components/UI/Input/Input';
 import "react-datepicker/dist/react-datepicker.css";
 import { Field } from 'formik';
 import isEqual from 'react-fast-compare';
+import WeeklyScheduleForm from '../../WeeklyScheduleForm/WeeklyScheduleForm';
 
 const scheduleOptions = (['none', 'calendar', 'weekly'].map((s, index) => <option key={index+1} value={s}>{s}</option>))
 
@@ -19,6 +20,7 @@ class TaskScheduleFormComponent extends Component {
   }
 
   render() {
+    const { values, setFieldValue } = this.props
     const { schedule } = this.state
 
     return <React.Fragment>
@@ -88,6 +90,14 @@ class TaskScheduleFormComponent extends Component {
             }}
           />
         </React.Fragment>
+      }
+      { schedule === 'weekly' && 
+        <WeeklyScheduleForm
+          initialValues={values.days}
+          onWeeklyScheduleChange={(val) => {
+            setFieldValue('days', val)
+          }}
+        />
       }
     </React.Fragment>
   }
