@@ -9,10 +9,6 @@ import WeeklyScheduleForm from '../../WeeklyScheduleForm/WeeklyScheduleForm';
 const scheduleOptions = (['none', 'calendar', 'weekly'].map((s, index) => <option key={index+1} value={s}>{s}</option>))
 
 class TaskScheduleFormComponent extends Component {
-  state = {
-    schedule: (this.props.initalValues && this.props.initalValues.start) ? 'calendar' : 'none',
-  }
-
   componentWillUpdate(nextProps, nextState) {
     if (!isEqual(nextProps.values, nextProps.initialValues)) {
       this.props.onTaskScheduleChange(nextProps.values)
@@ -20,8 +16,7 @@ class TaskScheduleFormComponent extends Component {
   }
 
   render() {
-    const { values, setFieldValue } = this.props
-    const { schedule } = this.state
+    const { values, setFieldValue, errors } = this.props
 
     return <React.Fragment>
       <Field
@@ -36,10 +31,8 @@ class TaskScheduleFormComponent extends Component {
         label="Schedule"
         variant="outlined"
         margin="normal"
-        value={schedule}
-        onChange={(e) => this.setState({schedule: e.target.value})}
       />
-      { schedule === 'calendar' && 
+      { values.schedule === 'calendar' && 
         <React.Fragment>
           <Field
             name="start"
@@ -56,8 +49,10 @@ class TaskScheduleFormComponent extends Component {
               />
               return <DatePicker 
                 customInput={customInput}
-                selected={field.value}
+                selected={field.value ? new Date(field.value) : null}
                 onChange={handleChange}
+                minDate={new Date(new Date())}
+                maxDate={values.stop ? new Date(values.stop) : null}
                 selectsStart
                 showTimeSelect
                 dateFormat="MMMM d, yyyy h:mm aa"
@@ -80,8 +75,9 @@ class TaskScheduleFormComponent extends Component {
               />
               return <DatePicker
                 customInput={customInput}
-                selected={field.value}
+                selected={field.value ? new Date(field.value) : null}
                 onChange={handleChange}
+                minDate={new Date(values.start ? new Date(values.start) : new Date())}
                 selectsEnd
                 showTimeSelect
                 dateFormat="MMMM d, yyyy h:mm aa"
@@ -91,12 +87,13 @@ class TaskScheduleFormComponent extends Component {
           />
         </React.Fragment>
       }
-      { schedule === 'weekly' && 
+      { values.schedule === 'weekly' && 
         <WeeklyScheduleForm
           initialValues={values.days}
           onWeeklyScheduleChange={(val) => {
             setFieldValue('days', val)
           }}
+          errors={errors.days}
         />
       }
     </React.Fragment>

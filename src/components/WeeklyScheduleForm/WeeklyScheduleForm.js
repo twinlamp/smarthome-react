@@ -5,22 +5,31 @@ import WeeklyScheduleFormComponent from './WeeklyScheduleFormComponent/WeeklySch
 
 const validationSchema = Yup.object().shape({
   days: Yup.object().shape({
-    mon: Yup.object().shape({ on: Yup.date(), off: Yup.date() }),
-    tue: Yup.object().shape({ on: Yup.date(), off: Yup.date() }),
-    wen: Yup.object().shape({ on: Yup.date(), off: Yup.date() }),
-    thu: Yup.object().shape({ on: Yup.date(), off: Yup.date() }),
-    fri: Yup.object().shape({ on: Yup.date(), off: Yup.date() }),
-    sat: Yup.object().shape({ on: Yup.date(), off: Yup.date() }),
-    sun: Yup.object().shape({ on: Yup.date(), off: Yup.date() })
+    mon: Yup.object().required(),
+    tue: Yup.object().required(),
+    wen: Yup.object().required(),
+    thu: Yup.object().required(),
+    fri: Yup.object().required(),
+    sat: Yup.object().required(),
+    sun: Yup.object().required(),
   }),
 });
 
 class WeeklyScheduleForm extends Component {
 
+  componentDidUpdate() {
+    const { errors } = this.props;
+
+    if (errors) {
+      this.form.setErrors(errors)
+    }
+  }
+
   render() {
     const { initialValues, onWeeklyScheduleChange } = this.props;
 
     return <Formik
+      ref={el => (this.form = el)}
       enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}

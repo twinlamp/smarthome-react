@@ -6,16 +6,6 @@ import TaskScheduleForm from '../../TaskScheduleForm/TaskScheduleForm';
 import isEqual from 'react-fast-compare';
 
 class TaskFormComponent extends Component {
-  state = {
-    valuesRange: Boolean(this.props.initialValues.min || this.props.initialValues.max),
-  }
-
-  toggleValuesRange() {
-    this.setState(prevState => {
-      return { valuesRange: !prevState.valuesRange };
-    });
-  }
-
   componentWillUpdate(nextProps, nextState) {
     if (!isEqual(nextProps.values, nextProps.initialValues)) {
       this.props.onTaskChange(nextProps.values)
@@ -23,24 +13,23 @@ class TaskFormComponent extends Component {
   }
 
   render() {
-    const { values, setFieldValue, setFieldTouched, sensor} = this.props
-    const { valuesRange } = this.state 
+    const { values, setFieldValue, setFieldTouched, sensor, errors } = this.props
 
     return <React.Fragment>
       { sensor && <FormControlLabel
           control={
             <Switch
               onChange={() => {
-                this.toggleValuesRange()
+                setFieldValue('values_range', !values.values_range)
               }}
-              value={valuesRange}
-              checked={valuesRange}
+              value={values.values_range}
+              checked={values.values_range}
             />
           }
           label="Values Range"
         />
       }
-      { valuesRange && 
+      { values.values_range && sensor &&
         <Slider
           onBlur={ () => {
             setFieldTouched('min', true)
@@ -63,6 +52,7 @@ class TaskFormComponent extends Component {
         onTaskScheduleChange={(val) => {
           setFieldValue('task_schedule', val)
         }}
+        errors={errors.task_schedule}
       />
     </React.Fragment>
   }

@@ -17,7 +17,7 @@ class WeeklyScheduleFormComponent extends Component {
   }
 
   render() {
-    const { values, setFieldValue } = this.props
+    const { values, setFieldValue, errors } = this.props
 
     return <Table>
       <TableHead>
@@ -36,6 +36,7 @@ class WeeklyScheduleFormComponent extends Component {
               onDailyScheduleChange={(val) => {
                 setFieldValue(day, val)
               }}
+              errors={errors[day]}
             />
           </TableRow>
         ))}

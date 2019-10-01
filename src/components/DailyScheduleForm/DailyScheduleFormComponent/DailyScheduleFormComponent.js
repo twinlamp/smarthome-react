@@ -10,9 +10,20 @@ import classes from './DailyScheduleFormComponent.module.css';
 class DailyScheduleFormComponent extends Component {
   componentWillUpdate(nextProps, nextState) {
     if (!isEqual(nextProps.values, nextProps.initialValues)) {
-      console.log(this.props.values);
       this.props.onDailyScheduleChange(nextProps.values)
     }
+  }
+
+  msFromBeginningOfDay(date) {
+    if (!date) { return null }
+    return date - new Date(date.getTime()).setHours(0, 0, 0, 0)
+  }
+
+  dateFromMs(ms) {
+    if (!ms) { return null }
+    let date = new Date()
+    date.setHours(0, 0, 0, ms)
+    return date
   }
 
   render() {
@@ -23,7 +34,7 @@ class DailyScheduleFormComponent extends Component {
         <Field
           name="on"
           render={({ field, form }) => {
-            let handleChange = (value) => form.setFieldValue(field.name, value);
+            let handleChange = (value) => form.setFieldValue(field.name, this.msFromBeginningOfDay(value));
             let customInput = <Input
               field={field}
               form={form}
@@ -35,10 +46,10 @@ class DailyScheduleFormComponent extends Component {
             />
             return <DatePicker 
               customInput={customInput}
-              selected={field.value}
+              selected={this.dateFromMs(field.value)}
               onChange={handleChange}
-              minTime={new Date(new Date().setHours(0, 0, 0))}
-              maxTime={new Date(values.off || new Date().setHours(23, 59, 59))}
+              minTime={new Date(new Date().setHours(0, 0, 0, 0))}
+              maxTime={new Date(this.dateFromMs(values.off) || new Date().setHours(23, 59, 59))}
               showTimeSelect
               showTimeSelectOnly
               timeIntervals={15}
@@ -53,7 +64,7 @@ class DailyScheduleFormComponent extends Component {
         <Field
           name="off"
           render={({ field, form }) => {
-            let handleChange = (value) => form.setFieldValue(field.name, value);
+            let handleChange = (value) => form.setFieldValue(field.name, this.msFromBeginningOfDay(value));
             let customInput = <Input
               field={field}
               form={form}
@@ -65,9 +76,9 @@ class DailyScheduleFormComponent extends Component {
             />
             return <DatePicker 
               customInput={customInput}
-              selected={field.value}
+              selected={this.dateFromMs(field.value)}
               onChange={handleChange}
-              minTime={new Date(values.on || new Date().setHours(0, 0, 0))}
+              minTime={new Date(this.dateFromMs(values.on) || new Date().setHours(0, 0, 0, 0))}
               maxTime={new Date(new Date().setHours(23, 59, 59))}
               showTimeSelect
               showTimeSelectOnly
