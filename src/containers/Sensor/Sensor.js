@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import * as navActions from '../../components/Navigation/Navbar/NavActions/navActionTypes';
-import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line, Label } from 'recharts';
+import { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line, Label, Brush } from 'recharts';
 import moment from 'moment-timezone';
 import sensorTypes from '../../shared/sensorTypes';
 import { withTheme } from '@material-ui/core/styles';
@@ -28,16 +28,38 @@ class CustomizedAxisTick extends PureComponent {
 }
 
 class Sensor extends Component {
+  state = {
+    initialData: [],
+    timerId: 0,
+    startIndex: 0,
+    endIndex: -1,
+    brushWidth: window.innerWidth - 200
+  }
+
   componentDidMount() {
     const { id } = this.props.match.params
 
     this.props.onSetNavTitle('Sensor: ', true)
     this.props.onGetCurrentSensor(this.props.token, id)
     this.props.onGetSensorData(this.props.token, id, '', '')
+    window.addEventListener('resize', this.updateBrushWidth.bind(this))
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateBrushWidth.bind(this))
   }
 
   componentDidUpdate() {
+    if (this.state.initialData && this.state.initialData.length === 0 && this.props.data && this.props.data.length > 0 ) {
+      let formattedData = this.props.data.map(el => { return {...el, ...{ label: new Date(el.registered_at).toLocaleString() }} })
+      this.setState({ initialData: formattedData, startIndex: 0, endIndex: formattedData.length - 1 });
+    }
     this.setNavigation(this.props.currentSensor)
+  }
+
+  updateBrushWidth() {
+    console.log('update')
+    this.setState({ brushWidth: window.innerWidth - 200 })
   }
 
   setNavigation(currentSensor) {
@@ -50,11 +72,23 @@ class Sensor extends Component {
   }
 
   handleChange(e) {
-    console.log(e)
+    let timerId = e.startIndex + e.endIndex
+    this.setState({ timerId: timerId, startIndex: e.startIndex, endIndex: e.endIndex })
+    setTimeout(()=>{
+      if (this.state.timerId === timerId) {
+        this.props.onGetSensorData(
+          this.props.token,
+          this.props.match.params.id,
+          this.state.initialData[e.startIndex].registered_at,
+          this.state.initialData[e.endIndex].registered_at
+        )
+      }
+    }, 1000)
   }
 
   render() {
     const { currentSensor, theme, data, loading } = this.props;
+    const { initialData, startIndex, endIndex, brushWidth } = this.state;
     let graph = null
 
     if (currentSensor) {
@@ -86,6 +120,19 @@ class Sensor extends Component {
             <CircularProgress size={48} className={classes.ButtonProgress} />
           </div>
         }
+        <svg className="recharts-surface" width="100%">
+          <Brush
+            startIndex={startIndex}
+            endIndex={endIndex}
+            data={initialData}
+            onChange={ e => this.handleChange(e)}
+            x={100}
+            y={50}
+            width={brushWidth}
+            height={40}
+            dataKey="label"
+          />
+        </svg>
       </div>
     }
     return graph
