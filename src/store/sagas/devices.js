@@ -12,13 +12,13 @@ export function* getDevicesSaga(action) {
   yield put(actions.getDevicesStart())
   const response = yield fetch('/api/v1/devices', { method: 'GET', headers: headers(action.token) })
   const jsonResponse = yield response.json()
-  let data = response.ok ? jsonResponse : []
+  let data = response.ok ? jsonResponse.data : []
   yield put(actions.getDevicesFinish(data))
 }
 
 export function* addDeviceSaga(action) {
   yield put(actions.addDeviceStart())
-  const requestBody = { device: { name: action.name, timezone: action.timezone } }
+  const requestBody = { name: action.name, timezone: action.timezone }
   const response = yield fetch('/api/v1/devices', { method: 'POST', headers: headers(action.token), body: JSON.stringify(requestBody) })
   const jsonResponse = yield response.json()
   if (jsonResponse.ok) {
@@ -43,6 +43,6 @@ export function* editDeviceSaga(action) {
   if (jsonResponse.ok) {
     yield put(actions.editDeviceFinish())
   } else {
-    yield put(actions.editDeviceFail(jsonResponse.errors))
+    yield put(actions.editDeviceFail(jsonResponse.errors.device))
   }
 }

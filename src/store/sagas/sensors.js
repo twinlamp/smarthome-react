@@ -36,5 +36,5 @@ export function* getSensorDataSaga(action) {
   if (action.to) { url += `&to=${action.to}`}
   const response = yield fetch(url, { method: 'GET', headers: headers(action.token) })
   const jsonResponse = yield response.json()
-  yield put(actions.getSensorDataFinish(jsonResponse))
+  yield put(actions.getSensorDataFinish(jsonResponse.data))
 }
