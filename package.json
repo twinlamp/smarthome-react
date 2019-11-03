@@ -30,6 +30,7 @@
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "eslint-plugin-react": "7.11.1",
+    "faker": "^4.1.0",
     "file-loader": "2.0.0",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
     "formik": "^1.5.0",
@@ -37,6 +38,7 @@
     "html-webpack-plugin": "4.0.0-alpha.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",
+    "jest-fetch-mock": "^2.1.2",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
     "jss": "^9.8.7",
@@ -48,6 +50,7 @@
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.3.1",
     "postcss-safe-parser": "4.0.1",
+    "puppeteer": "^2.0.0",
     "react": "^16.7.0",
     "react-app-polyfill": "^0.2.0",
     "react-compound-slider": "^1.2.1",
@@ -133,5 +136,6 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "devDependencies": {}
 }
